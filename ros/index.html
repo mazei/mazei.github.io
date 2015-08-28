@@ -5,8 +5,14 @@
 		<script src="js/Markdown.Sanitizer.js"></script>
 		<script src="bower/bower_components/jquery/dist/jquery.min.js"></script>
 	    <script src="bower/bower_components/showdown/dist/showdown.min.js"></script>	
+		<script>
+			var converter = new showdown.Converter(),
+				text = '#hello, markdwon!',
+				html = converter.makeHtml(text);
+			alert(html);
+		</script>
 	</head>
 	<body>
-abc
+		<textarea id="content"></textarea>
 	</body>
 </html>
