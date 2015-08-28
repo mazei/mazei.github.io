@@ -1,18 +1,26 @@
 <html>
 	<head>
 		<title>ros</title>
-		<script src-"js/Markdown.Converter.js"></script>
-		<script src="js/Markdown.Sanitizer.js"></script>
+		<link rel="stylesheet" href="css/normalize.css">
+	    <link rel="stylesheet" href="css/style.css">
 		<script src="bower/bower_components/jquery/dist/jquery.min.js"></script>
 	    <script src="bower/bower_components/showdown/dist/showdown.min.js"></script>	
 		<script>
-			var converter = new showdown.Converter(),
-				text = '#hello, markdwon!',
-				html = converter.makeHtml(text);
-			alert(html);
+			$(document).ready(function() {
+				$.ajax({
+					url : "ros_tutorials.md",
+					dataType : "text",
+					success : function (data) {
+						var converter = new showdown.Converter(),
+							html = converter.makeHtml(data);
+						$("div#content").html(html);
+						$("div#content").addClass("content");
+					}
+				});
+			});
 		</script>
 	</head>
 	<body>
-		<textarea id="content"></textarea>
+		<div id="content">abc</div>
 	</body>
 </html>
