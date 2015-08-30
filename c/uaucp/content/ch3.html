@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="altitude" content="40"/><meta name="author" content="Johnny.Hsu"/><meta name="created" content="2014-12-17 06:40:38 +0000"/><meta name="latitude" content="30.28941035999999"/><meta name="longitude" content="120.14180254"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2014-12-23 02:38:47 +0000"/><title>UAUCP_Chapter3:Pointers and Functions</title></head><body>
+<div>section1: Program Stack and Heap</div>
+<div>section2: Passing and Returning by Pointer</div>
+<div>section3: Function Pointers</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">section1: Program Stack and Heap</span></b><br/></div>
+<div><br/></div>
+<div>stack frame holds local(automatic) variables.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1.1 Program Stack</span></b></div>
+<div>     <b>The program stack</b> is an area of memory that supports the execution of functions and is normally shared with <b>the heap</b>. That is , they share the same region of memory. The program stack tends to occupy the lower part of this region, while the heap uses the upper part.</div>
+<div>     <b>The program stack</b> holds <b><i>stack frames</i></b>, sometimes called <b><i>activation records</i></b> or <i><b>activation frames</b></i>.</div>
+<div>     Stack frames hold the parameters and local variables of function.</div>
+<div><br/></div>
+<div>     e.g.</div>
+<div>     void function2( ) {</div>
+<div>          Ojbect *var1 = …;</div>
+<div>          int var2;</div>
+<div>          printf(“Program Stack Examle\n”);</div>
+<div>     }</div>
+<div>     </div>
+<div>     void function1( ) {</div>
+<div>          Object *var3 = …;</div>
+<div>          function2( );</div>
+<div>     }</div>
+<div><br/></div>
+<div>     int main( ) {</div>
+<div>          int var4;</div>
+<div>          function1( );</div>
+<div>     }</div>
+<div>     </div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/8B8CAA2C-6120-406F-9B6B-1DE8F0878FE6.png" height="398" width="393"/></div>
+<div><b><span style="font-size: 18px;">1.2 Organization of a Stack Frame</span></b> </div>
+<div><br/></div>
+<div>     A stack frame consists of several elements, including:</div>
+<div>     (1) Return address:</div>
+<div>     (2) Storage for local data;</div>
+<div>     (3) Storage for parameters;</div>
+<div>     (4) Stack and base pointers: Pointers used by the runtime system to manager the stack. (not be concerned)</div>
+<div><br/></div>
+<div>     <b>A stack pointer</b> usually pointer to the top of the stack.</div>
+<div>     <b>A stack base pointer (frame pointer)</b> is often present and points to an address within the stack frame, such as return address.</div>
+<div>     Neither of these are C pointers.</div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/F8D5F306-03DA-4912-A197-81DE44651D1C.png" height="359" width="322"/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/BDE3BF22-B731-4238-974D-29964EEBFFC0.png" height="66" width="348"/></div>
+<div><br/></div>
+<div>     When the stack frame is created, the parameters are pushed onto the frame in the opposite order of their declaration, followed by the local variables.</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/B4531760-CD8C-4255-91AD-46FF2EB56A56.png" height="401" width="540"/></div>
+<div>     stack overflow...</div>
+<div>     Keep in mind that each thread is typically allocated its own program stack.</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">section2: Passing and Returning by Pointer</span></b><br/></div>
+<div><br/></div>
+<div>     Parameters, including pointers, are passed by VALUE. That is , a copy of the argument is passed to the function.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2.1 Passing Data using a Pointer</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/31812690-8F4E-4085-BEF7-7D82774349E6.png" height="102" width="349"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/8BE45EA1-F623-4BF7-83C8-E238C7B615BB.png" height="89" width="272"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/4556DA92-7AB0-4F1E-A2EF-6A83EBDFD93B.png" height="18" width="130"/></div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/BB5991B4-DB6C-4656-B122-45F031030446.png" height="343" width="617"/></div>
+<div><b><span style="font-size: 18px;">2.2 Passing Data by Value</span></b></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/E7D51DBA-0906-46B8-842F-1D2FEB3E6628.png" height="108" width="232"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/90373EE8-CD15-45D0-A56E-0D1B0E94BDA8.png" height="112" width="290"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/E5A6D992-F72A-4C94-84B6-F06477171F64.png" height="19" width="124"/></div>
+<div><br/></div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/7D9192B5-08CC-4EA4-A3FB-DE02A5F4C64F.png" height="335" width="627"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2.3 Passing a pointer to a Constant</span></b></div>
+<div> </div>
+<div><b>PS： lvalue</b> refers to the operand found on the left side of the assignment operator. e.g. *pi = 100,   *pi is a lvalue.</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/0E61525A-B357-448A-89CF-7B4886CB5939.png" height="126" width="314"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/C8C843A7-227C-4FC2-B7BD-3A3A2414B27E.png" height="56" width="427"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/1425F0A6-89CC-45DF-9270-E18B768BD52B.png" height="21" width="97"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2.4 Returning a Pointer</span></b></div>
+<div>     two techniques:</div>
+<div>     (1) Allocate memory within the function using malloc and return its address.</div>
+<div>          The caller is responsible for deallocating the memory returned.</div>
+<div>          <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/E6E5E07B-21A4-45B5-A2A5-F005B9E3C626.png" height="330" width="347"/></div>
+<div>          45 * 5</div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/E6D1699E-95EC-4B52-8D95-E67B9DD06760.png" height="394" width="694"/></div>
+<div>          This memory will <b>eventually</b> need to be freed.    free(vector);</div>
+<div><br/></div>
+<div>          Potential problems:</div>
+<div>          i) Returning an uninitialised pointer;</div>
+<div>          ii) Returning a pointer to an invalid address;</div>
+<div>          iii) Returning a pointer to a local variable;</div>
+<div>          iv) Returning a pointer but failing to free it. (is typified by the allocoateArray)</div>
+<div><br/></div>
+<div>     (2) Pass an object to the function where it is modified.</div>
+<div>          This makes the allocation and deallocation of the object’s memory the caller’s responsibility.</div>
+<div>          NOT recommended.  refer to the section “Passing Null Pointers” on page 67.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2.5 Pointer to Local Data</span></b></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/451FE6B2-6F4E-401F-90D2-32BFE3B5672C.png" height="142" width="307"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/DD7BCC6A-DD6A-4225-8D05-8529BA219336.png" height="206" width="689"/></div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/1A439DA5-9883-47D8-94C9-C3507651BC62.png" height="342" width="782"/><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>modification:</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/1B36BF8A-71C2-4F54-A630-8E266C41771B.png" height="141" width="306"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/B3E05B1E-F9DD-4DEC-A8CA-7FFB9784DAA5.png" height="119" width="435"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2.6 Passing Null Pointers</span></b></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/E93E9D64-3C39-40AF-9A07-7F36F4701D2F.png" height="213" width="371"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/9D70D46F-4354-4104-9B29-DC8534CA501D.png" height="155" width="374"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/CF1BECBF-DCAC-483C-BBF1-216A96FFB118.png" height="104" width="362"/></div>
+<div>     </div>
+<div><b><span style="font-size: 18px;">2.7 Passing a Pointer to a Pointer</span></b></div>
+<div>     When a pointer is passed to a function, it is passed by value. </div>
+<div>     If we want to modify the original pointer and not the copy of the pointer, we need to pass it as a pointer to a pointer.</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/F2BCCACC-7FF6-4D03-84FC-4A637A06B952.png" height="258" width="362"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/AB36395B-6461-491F-9AFF-08595656A75D.png" height="139" width="385"/></div>
+<div><br/></div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/A3469858-9E65-4141-A50F-AD5A35E8474B.png" height="390" width="696"/></div>
+<div>这个例子综合了之前的几乎所有知识点。</div>
+<div>1. main中，定义了int 类型的指针 *vector,  stack中给定地址为500, 即&amp;vector=500, vector=null, *vector=null;</div>
+<div>2. foo中，arr is a pointer to a pointer to int， &amp;arr=?,  arr=&amp;vector=500,  *arr=vector=null, **arr=*vector=null;</div>
+<div>3.    malloc return a pointer to a void, a address = 600; </div>
+<div>4. *arr = vector = 600; // 相当于一般的malloc一个array; *arr, vector是一个数组的指针了</div>
+<div>5. *arr+i :  这是对指针进行数值操作，指针往后走</div>
+<div>6. *(*arr+i) : 数组指针的*  操作，lvalue,  indirection instead of dereferencing</div>
+<div><br/></div>
+<div>e.g. A simple pointer will not work:</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/F2BCCACC-7FF6-4D03-84FC-4A637A06B952.png" height="258" width="362"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/2BF4E04C-4AE1-42E5-AE12-BEF7E476DC8E.png" height="135" width="389"/></div>
+<div>When vector is passed to the function, its value is copied into the parameter arr.</div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/E3924E2E-376D-4A48-B499-AB75410679BD.png" height="402" width="950"/><br/></div>
+<div><br/></div>
+<div>2.7.1 Writing your own free function</div>
+<div>     The free function <b>does not check the pointer passed to see whether it is NULL</b> and <b>does not set the pointer to NULL before it returns</b>.</div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/7FED8FBC-C22E-46F5-9719-BFBED98ADCAD.png" height="51" width="312"/></div>
+<div>     main:</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/0B39C4BF-3D1B-45B1-8DC6-7E54485B3635.png" height="148" width="236"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/ABBBBD75-AB78-44BE-98CE-816CA3C26A3E.png" height="100" width="263"/></div>
+<div>     output:</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/2F37416D-D15F-45C8-8B0B-53F9786D0DF1.png" height="34" width="164"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">section3: Function Pointers</span></b><br/></div>
+<div><br/></div>
+<div>     A function pointer is a pointer that holds the address of a function.</div>
+<div>     Using for executing function at runtime.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.1 Declaring Function Pointers</span></b></div>
+<div><br/></div>
+<div>     passed void and returned void:</div>
+<div>          void (*foo)( );</div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/72DE0BD9-D86A-4EA9-8599-F10089747A2A.png" height="219" width="308"/></div>
+<div>examples:</div>
+<div>     int (*f1)(double)</div>
+<div>     void (*f2)(char*)</div>
+<div>     double* (*f3)(int, int)</div>
+<div><br/></div>
+<div>confuse functions:</div>
+<div>     int *f4( );             // declares f4 as  a function that returns a pointer to an integer</div>
+<div>     int (*f5) ( );          // f5 is a function pointer that returns an integer</div>
+<div>     int* (*f6) ( );         // f6 is a function pointer that returns a pointer to integer</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.2 Using a Function Pointer</span></b></div>
+<div><br/></div>
+<div>    <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/AA63BF7E-EE85-4918-8C91-353A9134C2C7.png" height="82" width="506"/></div>
+<div>     少了*, faint, &amp;符号可以省略，推荐省略。</div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/BC79A8A5-51F3-4625-81A4-1680EB8A6A18.png" height="343" width="357"/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/3471DA6D-B933-4161-B197-12E86E5D0B9E.png" height="32" width="347"/></div>
+<div><br/></div>
+<div><img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/48BBEB0E-AF43-4DF9-A74D-3A922BD4A249.png" height="386" width="465"/><br/></div>
+<div><br/></div>
+<div>alternative( using typedef ): </div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/4510B036-220B-4E66-A8DD-D58008FC24B1.png" height="211" width="348"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.3 Passing Function Pointers</span></b></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/C366666C-CBDE-4890-8048-EEFBD1BBA6A0.png" height="19" width="278"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/2DBD6C5D-918D-4B66-85A0-C8E645CA6EBD.png" height="56" width="414"/></div>
+<div>     main:</div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/40AC8D12-6B4A-43B4-B5F6-5498DFDF9928.png" height="56" width="294"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/0F099505-A6BF-4C13-9D2F-070973FE4D5D.png" height="193" width="416"/></div>
+<div>     11, -1</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.4 Returning Function Pointers</span></b></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/6EA19963-1B0E-4856-AA49-C5622988C338.png" height="74" width="278"/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/522D4279-7FD3-450B-B0C1-AF8FD5E75B71.png" height="198" width="337"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.5 Using an Array of Function Pointers</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/22A05F9E-849E-4DB3-A4BC-C6EB28D45CCF.png" height="685" width="408"/></div>
+<div><br/></div>
+<div><a href="http://en.wikipedia.org/wiki/ASCII">http://en.wikipedia.org/wiki/ASCII</a><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.6 Comparing Function Pointers</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/90E7B5B4-395B-4431-8A4D-484495CE8E50.png" height="131" width="387"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">3.7 Casting Function Pointers</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter3%3APointers%20and%20Functions.resources/B7F6CB6C-3F64-4338-AC0D-2FD4E1831835.png" height="88" width="406"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>
