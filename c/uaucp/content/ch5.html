@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="altitude" content="38"/><meta name="author" content="Johnny.Hsu"/><meta name="created" content="2014-12-24 09:03:28 +0000"/><meta name="latitude" content="30.28901876999999"/><meta name="longitude" content="120.14124519"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2014-12-29 08:08:40 +0000"/><title>UAUCP_Chapter5 : Pointers and Strings</title></head><body>
+<div>Section1: String Fundamentals</div>
+<div>     1.1 String Declaration</div>
+<div>     1.2 The String Literal Pool</div>
+<div>     1.3 String Initialization</div>
+<div>Section2: Standard String Operations</div>
+<div>     2.1 Comparing Strings</div>
+<div>     2.2 Copying Strings</div>
+<div>     2.3 Concatenating Strings</div>
+<div>Section3: Passing Strings</div>
+<div>     3.1 Passing a Simple String</div>
+<div>     3.2 Passing a Pointer to a Constant char</div>
+<div>     3.3 Passing a String to be Initialized</div>
+<div>     3.4 Passing Arguments to an Application</div>
+<div>Section4: Returning Strings</div>
+<div>     4.1 Returning the Address of a Literal</div>
+<div>     4.2 Returning the Address of Dynamically Allocated Memory</div>
+<div>Section5: Function Pointers and Strings</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section1: String Fundamentals</span></b></div>
+<div>    Arrays of char have been used to represent smaller integer units, such as boolean, to conserve memory space in an application.</div>
+<div>     Two types of string in C:</div>
+<div>     (1) Byte string: Consists of a sequence of char data type;  in string.h</div>
+<div>     (2) Wide string: Consists of a sequence of wchar_t data type.   in wchar.h</div>
+<div>          wchar_t is used for wide characters and may be either 16 or 32 bits in width.</div>
+<div><br/></div>
+<div>     Both of these strings are terminated by the NUL character.</div>
+<div>     The length of string does not include the NUL character.</div>
+<div><br/></div>
+<div>PS:</div>
+<div>     NULL : ((void*)0)</div>
+<div>     NUL: ‘\0'</div>
+<div><br/></div>
+<div>     <b>Character constants</b> are character sequences enclosed in <b>single quotes</b>.  <b>In C, they are of type int.</b></div>
+<div>          <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/9A65C2C4-0736-47DA-B1DB-2BB4A9CC9A34.png" height="123" width="253"/></div>
+<div>          <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/91CCF81E-2123-4859-8B88-4DD2FAAA5F03.png" height="48" width="338"/></div>
+<div><br/></div>
+<div>     <b><span style="font-size: 18px;">1.1 String Declaration</span></b></div>
+<div><br/></div>
+<div>     three ways:</div>
+<div>     (1) as a literal.  “adbde"</div>
+<div>     (2) as an array of characters.  char header[32];</div>
+<div>     (3) using a pointer to a character.  char *header;</div>
+<div><br/></div>
+<div>     <b>The string literal</b> is a sequence of characters enclosed in <b>double quotes</b>.</div>
+<div><br/></div>
+<div>     <b><span style="font-size: 18px;">1.2 The String Literal Pool</span></b></div>
+<div>     GCC uses a -fwritable-strings option to turn off string pooling.</div>
+<div>     In Microsoft Visual Studio, the /GF option will turn on string pooling.</div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/EF1D1820-705D-422F-A559-F7A6E44927CE.png" height="317" width="396"/></div>
+<div><br/></div>
+<div>     In most compilers, a string literal is treated as a constant. However, in some compiler, such as GCC:</div>
+<div>     char *tabHeader = “Sound”;</div>
+<div>     *tabHeader = ‘L’;</div>
+<div>     printf(“%s\n”, tabHeader);   // Displays “Lound"</div>
+<div><br/></div>
+<div>     一般string当作常量，但如上所示, GCC可改。 一种做法是：</div>
+<div>     const char* tabHeader = “Sound”;</div>
+<div>     </div>
+<div>    <b><span style="font-size: 18px;"> 1.3 String Initialization</span></b></div>
+<div>    </div>
+<div>     1.3.1 Initializing an array of char</div>
+<div>     (1) char header[] = “Media Player”;</div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/733349B7-A722-4928-BC1E-79E25B87CBBF.png" height="314" width="591"/></div>
+<div>     (2) using strcpy</div>
+<div>          char header[13];</div>
+<div>          strcpy(header, “Media Player”);</div>
+<div><br/></div>
+<div>     1.3.2 Initializing a pointer to a char</div>
+<div>    (1) normal</div>
+<div>          char *header = (char*) malloc(strlen(“Media Player”) + 1);</div>
+<div>          strcpy(header, “Media Player”);</div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/154B8D6D-5EE4-4F7A-B01E-A814B8C42737.png" height="312" width="588"/></div>
+<div>     (2) directly</div>
+<div>          char *header = “Media Player”;</div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/FADDA2A4-DDCA-4701-B322-5891B5C49617.png" height="314" width="593"/></div>
+<div><br/></div>
+<div>     1.3.3 Initializing a String from standard input</div>
+<div>          char *command = (char*) malloc(100);</div>
+<div>          printf(“Enter a Command: “);</div>
+<div>          scanf(“%s”, command);</div>
+<div>     </div>
+<div>     1.3.4 summary of string placement</div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/6F64CF54-4729-473E-8B13-21F7C009699C.png" height="470" width="465"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/02D63059-F03F-4AA1-A25C-C8A21A718835.png" height="610" width="699"/><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section2: Standard String Operations</span></b></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     2.1 Comparing Strings</span></b></div>
+<div><br/></div>
+<div>     prototype:  int strcmp(const char *s1, const char *s2);</div>
+<div>     returns:</div>
+<div>          Negative : if s1 precedes s2 lexicographically (alphabetically)</div>
+<div>          Zero: if the two strings are equal</div>
+<div>          Positive : if s1 follows s2 lexicographically</div>
+<div><br/></div>
+<div>          <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/64AEBB8F-8EE4-4976-9B81-5DEA450BD937.png" height="175" width="308"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/6AD2B2DC-91D8-4CB0-A0B5-0A9308488047.png" height="316" width="532"/></div>
+<div><br/></div>
+<div>     There are a couple of incorrect ways to compare two strings.</div>
+<div>     (1) if (command = “Quit”)  // error, it is an assignment, set the address of string “Quit” to the array ( array name) - command;</div>
+<div>     (2) if (command == “Quit”) // return false; 300 &lt;&gt; 600</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     2.2 Copying Strings</span></b></div>
+<div><br/></div>
+<div>     prototype:</div>
+<div>          char* strcpy(char *s1, const char *s2)</div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/0921400A-DA4B-418C-92A3-C04D88AC6C67.png" height="167" width="350"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/A77AAA78-0454-4558-A985-D8DB7E2233D1.png" height="381" width="430"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     2.3 Concatenating Strings</span></b></div>
+<div><br/></div>
+<div>     prototype:</div>
+<div>          char* strcat(char* s1, const char* s2)</div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/DC083448-84E9-4F4B-A585-D6E420AF41C8.png" height="139" width="515"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/C54BC0C3-BFAF-4D0E-9E67-9A5ACC193F31.png" height="359" width="807"/><br/></div>
+<div>     </div>
+<div><b><span style="font-size: 24px;">Section3: Passing Strings</span></b></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     3.1 Passing a Simple String</span></b></div>
+<div>      <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/163DF7C8-F905-4F56-B990-1D32E484A650.png" height="153" width="447"/></div>
+<div>      <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/62909E72-B94E-4EBF-B3D6-C9D018E73938.png" height="135" width="474"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/BD178E44-80B4-4C3B-91C5-9EC58F197792.png" height="274" width="626"/></div>
+<div>     size_t stringLength(char string[]) // 这是一样的</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     3.2 Passing a Pointer to a Constant char</span></b></div>
+<div><br/></div>
+<div>     size_t stringLength(const char* string);</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     3.3 Passing a String to be Initialized</span></b></div>
+<div><br/></div>
+<div>     snprintf : <a href="http://www.cplusplus.com/reference/cstdio/snprintf/">http://www.cplusplus.com/reference/cstdio/snprintf/</a></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/87655461-A5B4-449D-BA32-0FA8FE4EB8D2.png" height="193" width="419"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/9928D8ED-113A-422A-A6EB-E97DF982FBE5.png" height="105" width="464"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/B1DCE8A4-CEC5-46E5-8158-6FFA6E4BDAB3.png" height="105" width="267"/></div>
+<div><br/></div>
+<div>     An alternative to this approach is to pass NULL;</div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/2EC51B8C-E384-4983-A40F-DA3EC2DE95CE.png" height="23" width="377"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/9F3126DB-6A57-426F-AC24-1121AA862658.png" height="245" width="468"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     3.4 Passing Arguments to an Application</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/9EFC0DA2-3204-4A7F-9A24-18250EF37855.png" height="123" width="362"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/125FC5BF-8399-4C7B-B1BB-9A2DEC4496DF.png" height="125" width="605"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/B1F0E18C-AD19-47B4-81A1-F0B55E9E4910.png" height="354" width="618"/></div>
+<div>  显然，也可以写成：</div>
+<div>     int main(int argc, char* argv[ ]) {</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section4: Returning Strings</span></b></div>
+<div><br/></div>
+<div>     return a reference to either:</div>
+<div>     (1) A literal</div>
+<div>     (2) Dynamically allocated memory</div>
+<div>     (3) A local string variable</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     4.1 Returning the Address of a Literal</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/0A03F14F-D745-42E1-91D2-4F4F1C0DC585.png" height="854" width="454"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     4.2 Returning the Address of Dynamically Allocated Memory</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/AE6D8DE7-D376-45B0-A575-976519DFF035.png" height="329" width="366"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/25226E51-014B-4EF0-9AA1-B12819A975AF.png" height="379" width="922"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/DB141DA6-BB68-44DC-AC64-7862101A1B69.png" height="359" width="380"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     4.3 Returning the Address of Local String</span></b><br/></div>
+<div>     chapter3 section2  2.5 说明了a pointer to local variable, and then return it will cause error.</div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/2D22A292-5731-41CA-814C-96C9949C857A.png" height="578" width="395"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/5FCEEA2D-18E9-4869-BB2A-7E727326D315.png" height="108" width="707"/></div>
+<div><img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/6386CD21-89BF-4998-A1B9-CDBC99C38880.png" height="274" width="458"/><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section5: Function Pointers and Strings</span></b></div>
+<div><br/></div>
+<div>     1. tolower: <a href="http://www.cplusplus.com/reference/cctype/tolower/?kw=tolower">http://www.cplusplus.com/reference/cctype/tolower/?kw=tolower</a></div>
+<div>          it’s in the ctype.h</div>
+<div>     2. strcmp : <a href="http://www.cplusplus.com/reference/cstring/strcmp/?kw=strcmp">http://www.cplusplus.com/reference/cstring/strcmp/?kw=strcmp</a></div>
+<div>          Returns an integral value indicating the relationship between the strings:</div>
+<table>
+<tbody>
+<tr>
+<th>return value</th>
+<th>indicates</th>
+</tr>
+<tr>
+<td><code>&lt;0</code></td>
+<td>the first character that does not match has a <b>lower</b> value in <i>ptr1</i> than in <i>ptr2</i></td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td>the contents of both strings are equal</td>
+</tr>
+<tr>
+<td><code>&gt;0</code></td>
+<td>the first character that does not match has a greater value in <i>ptr1</i> than in <i>ptr2</i></td>
+</tr>
+<tr>
+<td>
+<div><br/></div>
+</td>
+<td>
+<div><br/></div>
+</td>
+</tr>
+</tbody>
+</table>
+<div> 负数表更小的值， acsii码越小，字母越靠前哪</div>
+<div>ascii码表表示：从小到大顺序为  符号-&gt; 数字-&gt;大写字母-&gt;小写字母。符号不一定，较乱。</div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/8C1F9FDD-5895-482B-B086-1DEA0A0B66E8.png" height="733" width="479"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/81C95863-5E25-4872-BB2D-947898251543.png" height="390" width="473"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/1168254A-492D-47C7-9F95-81EA8B909C82.png" height="35" width="357"/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/82C2AC44-EF37-4F86-9BCE-F94846D2AA4B.png" height="130" width="450"/></div>
+<div>     <img src="UAUCP_Chapter5%20%3A%20Pointers%20and%20Strings.resources/E10A94B5-9A72-4D5D-9EC7-6E00DFDB3E80.png" height="37" width="343"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>
