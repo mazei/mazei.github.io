@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="altitude" content="40"/><meta name="author" content="Johnny.Hsu"/><meta name="created" content="2014-12-15 07:44:52 +0000"/><meta name="latitude" content="30.28941035999999"/><meta name="longitude" content="120.14180254"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2015-01-14 02:45:12 +0000"/><title>Understanding and Using C Pointers</title></head><body>
+<div> Table of Contents (chapter)</div>
+<div>1. introduction:</div>
+<div>     pointer and memory, pointer size and types, pinter operations, common user of pointers.</div>
+<div>2. Dynamic Memory Management in C:</div>
+<div>     Dynamic memory allocation, function, free,</div>
+<div>3. Pointers and Functions</div>
+<div>     stakc and heap, passing, funciton pointers.</div>
+<div>4. Pointers and Arrays</div>
+<div>     pionter notation, malloc, </div>
+<div>5. Pointers and Strings</div>
+<div>6. Pointers and Structures</div>
+<div>7. Security issues and improper use of pointers</div>
+<div>8. odds and ends</div>
+<div><br/></div>
+<div>=================================================================================================<br/></div>
+<div><span style="font-size: 24px;"><b>Chapter 1 Introduction</b></span></div>
+<div><br/></div>
+<div>1. The basic concept of  a pointer: it is a variable that stores the address of a memory location.</div>
+<div>2. The key to comprehending points is understanding how memory is managed in a C program.</div>
+<div>3. Contents of this chapter:</div>
+<div>     (1) first section: declare, basic pointer operators, the concept of null;</div>
+<div>     (2) second section: pointer size and types, memory models, pointer operators: pointer arithmetic, pointer comparisons</div>
+<div>     (3) last section: common uses of pointers, constants and pointers, page25</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">Section 1: declaration, basic pointer operators, the concept of null</span></b></div>
+<div><br/></div>
+<div>1.1.1 Pointer and Memory</div>
+<div>When C program is compiled, it works with <u><b>three type of memory</b></u> :</div>
+<div>(1) <span style="font-size: 18px;"><i>Static / Global</i></span></div>
+<div>     statically declared variables. global variables.  remain in existence until the program terminates.</div>
+<div>(2) <span style="font-size: 18px;">Automatic</span></div>
+<div>     declared within a function, created when a function is called.</div>
+<div>(3) <span style="font-size: 18px;">Dynamic</span></div>
+<div>     allocated from the <b>heap</b> and can be released as necessary.</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/5D9B9742-AAE8-4961-96CC-872FA293F3B5.png" height="258" width="848"/><br/></div>
+<div><br/></div>
+<div>1.1.2 Why you should become proficient with pointers</div>
+<div>The malloc and free functions are used to allocate and release dynamic memory, respectively.</div>
+<div>ps: in the new C standard, C11, variable size arrays are supports.</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/7CE8985E-EFAA-4FED-9424-BB3BA780FAE3.png" height="695" width="1002"/><br/></div>
+<div>1.1.3 Declaring Pointers</div>
+<div>     int num</div>
+<div>     int *pi</div>
+<div><br/></div>
+<div>     num, pi located at address 100 and 104,  both occupy 4 bytes.</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/CFD00FC2-2611-4DF5-AC14-7F32CC40FD92.png" height="108" width="169"/><br/></div>
+<div><br/></div>
+<div>1.1.4 How to Read a Declaration</div>
+<div>     read them backward.</div>
+<div>     const int *pci</div>
+<div>     </div>
+<div>     1. <b>pci</b>                 : pci is a variable</div>
+<div>     2. *pci                : pci is a pointer variable</div>
+<div>     3. int *pci           : pci is a pointer variable to an integer</div>
+<div>     4. const int *pci : pci is a pointer variable to a constant integer</div>
+<div><br/></div>
+<div>1.1.5 Address Operator</div>
+<div>     The address of operator, &amp;, will return its operand’s address.</div>
+<div>     </div>
+<div>     num = 0;</div>
+<div>     pi = &amp;num;</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/5BC6EE45-4B58-45DC-A735-2986E0682761.png" height="105" width="150"/></div>
+<div><br/></div>
+<div>    <span style="font-size: 18px;"><b> &amp;num = 100;</b></span></div>
+<div><span style="font-size: 18px;"><b>     num = 0;</b></span></div>
+<div><span style="font-size: 18px;"><b>     &amp;pi = 104;</b></span></div>
+<div><span style="font-size: 18px;"><b>     pi = 100;</b></span></div>
+<div><span style="font-size: 18px;"><b>     *pi = num = 0;</b></span></div>
+<div>     </div>
+<div><br/></div>
+<div>     equals to:</div>
+<div>     int num;</div>
+<div>     int *pi = &amp;num;</div>
+<div><br/></div>
+<div>     num = 0;</div>
+<div>     pi = num; //error: invalid conversion from ‘int’ to ‘int *'</div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/45F62055-2163-401D-A7A3-7C6619E73A8D.png" height="86" width="681"/><br/></div>
+<div><br/></div>
+<div>     pi = (int *)num;</div>
+<div><br/></div>
+<div><b>Good Practice:</b></div>
+<div>     int num;</div>
+<div>     int *pi;</div>
+<div>     pi = &amp;num;</div>
+<div><br/></div>
+<div>1.1.6 Displaying Pointer Values</div>
+<div>    <img src="Understanding%20and%20Using%20C%20Pointers.resources/0BDCFBA9-49EC-45C8-A333-4897B70858C4.png" height="50" width="393"/><br/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/ED390C35-F380-4721-BBBD-A99DF07CBB97.png" height="201" width="672"/></div>
+<div><br/></div>
+<div>    <img src="Understanding%20and%20Using%20C%20Pointers.resources/57A4EF39-5A9D-403A-A7AC-6AF60657FA07.png" height="39" width="331"/><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b>PS</b> <b>printf</b></div>
+<div>%x  hexadcimal</div>
+<div>%o  octal number</div>
+<div>%p in an implementation-specific manner; typically as a hexadecimal number.</div>
+<div>%u unsigned int</div>
+<div>%lu  long unsigned, mainly equavelant to %zu</div>
+<div>%d signed integer</div>
+<div>%s  print string, pass the pointer</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>1.1.7 Dereferencing a Pointer Using the Indirection Operator</div>
+<div>     The indirection operator *, returns the value pointed to by a pointer variable.</div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/AD390045-ADEF-4389-9F80-70A702324D51.png" height="42" width="365"/></div>
+<div><br/></div>
+<div>*pi = 200</div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/7B2CD2A2-1200-4D6E-9E3A-A2F5D83585C1.png" height="104" width="155"/><br/></div>
+<div><br/></div>
+<div>1.1.8 Pointer to Functions</div>
+<div>     void (*foo)();</div>
+<div>     chapter3;</div>
+<div><br/></div>
+<div>1.1.9 The Concept of Null</div>
+<div> (1) The null concept;</div>
+<div>     When NULL is assigned to a pointer, it means the pointer does not point to anything.</div>
+<div>     The null concept refers to the idea that a pointer can hold a special value that is not equal to another pointer.</div>
+<div>     Two null pointers will always be equal to each other.</div>
+<div> (2) The null pointer constant;</div>
+<div>     may or may not be a constant zero.</div>
+<div> (3) The NULL macro;</div>
+<div>     is a constant integer zero cast to a pointer to void.</div>
+<div>     <b>#define NULL ((void *)0)</b></div>
+<div><b>     </b></div>
+<div>     NULL 0  <img src="Understanding%20and%20Using%20C%20Pointers.resources/D857798F-7401-4CB8-98F7-6610755FC09A.png" height="30" width="54"/></div>
+<div> (4) The ASCII NUL</div>
+<div>     is defined as a byte containing all zeros.  0000 0000 ,  it is equivalent to the character ‘\0’, which evaluates to the decimal value zero. </div>
+<div> (5) A null string;</div>
+<div>     a sequence of characters terminated by a zero value. “adsafasfdafdsfaf\0"</div>
+<div> (6) The null statement </div>
+<div>     semicolon</div>
+<div><br/></div>
+<div>pi = NULL; // it’s not the NULL macro, it means assign NULL to a pointer.   it will interpreted as the binary zero..</div>
+<div>A null pointer  and an uninitialised pointer are different. null : does not reference any location, uninitialised : can contain any value;</div>
+<div><br/></div>
+<div><b>Interestingly:</b>  we can assign a zero to a pointer, but we can not assign any other integer value.</div>
+<div>     pi = 0;</div>
+<div>     pi = NULL;</div>
+<div>     pi = 100; // Syntax error</div>
+<div>     pi = num; // Syntax error</div>
+<div><br/></div>
+<div>1.1.10 To NULL or not to NULL</div>
+<div>     using NULL or 0 is preference.</div>
+<div>     NULL should not be used in contexts other than pointers.</div>
+<div>     </div>
+<div><br/></div>
+<div><b>PS</b>: We are accustomed to <b>overloaded operators</b>:</div>
+<div>     (1) * , asterisk,   used to declare a pointer, to dereference a pointer, or to multiply.</div>
+<div>     (2) 0, zero, used to assign null pointer, or the integer zero.</div>
+<div><br/></div>
+<div>1.1. 11 Pointer to void</div>
+<div>     A pointer to void is a general-purpose pointer used to hold references to any data type.</div>
+<div>     void *pv;</div>
+<div><br/></div>
+<div>     Two interesting properties:</div>
+<div>     (1) <b>A</b> <b>pointer to void</b> will have the same representation an memory alignment as <b>a pointer to char</b>;</div>
+<div>     (2) A pointer to void will never be equal to another pointer. </div>
+<div><br/></div>
+<div>     Any pointer can be assigned to a pointer to void.It can then be cast back to its original pointer type.</div>
+<div><br/></div>
+<div>     void *pv = pi;</div>
+<div>     pi = (int *)pv;</div>
+<div><br/></div>
+<div>     // sizeof</div>
+<div>     size_t size = sizeof(void *); // Legal</div>
+<div>     size_t size = sizeof(void); // Illegal</div>
+<div><br/></div>
+<div>1.1.12 Global and static pointers</div>
+<div>     If a pointer is declared as global or static , it is initialised to <b>NULL</b> when the program starts.</div>
+<div>    <img src="Understanding%20and%20Using%20C%20Pointers.resources/020E51ED-B90D-45FD-BF31-C19F21E54F94.png" height="171" width="212"/><br/></div>
+<div><br/></div>
+<div>     Static and global variables are frequently placed in a data segment separate from the data segment used by the stack and heap.</div>
+<div>    <img src="Understanding%20and%20Using%20C%20Pointers.resources/FD2D339D-FAA6-43B5-925D-E9DA5DE9592F.png" height="286" width="374"/></div>
+<div> </div>
+<div><b><span style="font-size: 18px;">(2) second section: pointer size and types, memory models, pointer operators: pointer arithmetic, pointer comparisons</span></b></div>
+<div><br/></div>
+<div>1.2.1 Pointer size and types</div>
+<div>     pointer to data:  same size;</div>
+<div>     pointer to function: different from the size of a pointer to data.</div>
+<div><br/></div>
+<div>     e.g. Windows: 32 or 64 bits, 4 or 8 bytes</div>
+<div>            DOS/Win3.1  16 or 32 bits, 2 or 4 bytes;</div>
+<div><br/></div>
+<div>1.2.2 Memory Models</div>
+<div> <img src="Understanding%20and%20Using%20C%20Pointers.resources/123BE298-CDAA-4B37-B2C4-F347A3E9AE02.png" height="375" width="984"/> </div>
+<div>1.2.3 Predefined Pointer-Related Types</div>
+<div>     Four predefined types:</div>
+<div>     (1) size_t   :   safe type for sizes</div>
+<div>     (2) ptrdiff_t :  created to handle pointer arithmetic</div>
+<div>     (3) intptr_t   and   uintprt_t  :   used to storing pointer addresses;</div>
+<div><br/></div>
+<div>1.2.3.1 Understanding size_t</div>
+<div>     The type size_t represents the maximum size any object can be in C.</div>
+<div>     It is an unsigned integer.</div>
+<div>     The <b>size_t</b> type is used as the return type for the <b>sizeof</b> operator and as the argument to many functions, including <b>malloc</b> and <b>strlen</b>, among others.</div>
+<div><br/></div>
+<div><b>GOOD PRACTICE</b></div>
+<div>     it is good practice to use <b>size_t</b> when declaring variables for sizes such as the number of characters and array indexes.</div>
+<div><br/></div>
+<div>sizet_t is implementation-specific in stdio.h and stdlib.h defined as follows:</div>
+<div>     </div>
+<div>     #ifndef  __SIZE_T</div>
+<div>     #define _SIZE_T</div>
+<div>     typedef unsigned int size_t;</div>
+<div>     #endif</div>
+<div><br/></div>
+<div>     Normally, the maximum possible value for size_t is SIZE_MAX.</div>
+<div><br/></div>
+<div>     size_t can be used to store a pointer, but it is not a good idea .  intptr_t is a better choice.</div>
+<div><br/></div>
+<div>     printf(“%zu\n”, sizet);   // instead of using %d</div>
+<div><br/></div>
+<div>    <img src="Understanding%20and%20Using%20C%20Pointers.resources/8549FB87-D66E-4A0A-8279-FA94E06716BA.png" height="69" width="248"/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/3380E848-FB95-4C09-8442-98E4B2A51AAB.png" height="34" width="201"/></div>
+<div><br/></div>
+<div>1.2.3.2 using sizeof operator with pointers</div>
+<div>     printf("Size of *char : %d\n", sizeof(char*));<br/></div>
+<div>     Size of *char : 8<br/></div>
+<div><br/></div>
+<div>1.2.3.3 Using intptr_t and uintptr_t</div>
+<div>     The types intptr_t and uintptr_t are used to storing pointer addresses.</div>
+<div>     For most operations intptr_t is preferred</div>
+<div><br/></div>
+<div>     include &lt;stdint.h&gt;</div>
+<div>     intptr_t *pi1 = &amp;num;</div>
+<div><br/></div>
+<div>     </div>
+<div><b>PS</b>: If you <strong>ever</strong> need to cast a pointer into an integer type, <strong>always</strong> use <code>intptr_t</code>. ----stackoverflow</div>
+<div><br/></div>
+<div>1.2.4 Pointer Operator</div>
+<div>     pointer arithmetic and comparisons.</div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/0E3928CE-FBD6-4206-82C2-49046A967FB0.png" height="401" width="978"/><br/></div>
+<div><br/></div>
+<div>1.2.5 Pointer Arithmetic</div>
+<div>     (1) Adding an integer to a pointer; </div>
+<div>     (2) Subtracting an integer from a pointer ;</div>
+<div>     (3) Subtracting two pinter from each other;</div>
+<div>     (4) Comparing pointers;</div>
+<div><br/></div>
+<div>1.2.5.1 Adding an integer to a pointer</div>
+<div>     When we add an integer to a pointer, the amount added is the product of the integer <b>times</b> the number of bytes of the underlying data type.</div>
+<div>     common primitive data type sizes:</div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/16FD0628-8B48-4CD5-A267-13F00E16B7B7.png" height="340" width="245"/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/AEFF221B-BE58-4696-ADDF-2F2BF460C5FA.png" height="132" width="285"/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/0A4E448F-2135-43AD-9943-AF51F8EC4CA0.png" height="31" width="25"/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/30FD27EE-ADBE-48EB-9411-6B82DD031F50.png" height="135" width="176"/></div>
+<div><br/></div>
+<div><b>PS</b>: When an array name is used by itself, it returns the address of an array, which is also the address of the first element of the array.</div>
+<div><br/></div>
+<div>1.2.5.2 Pointers to void and addition</div>
+<div>     Syntax warning, incremented by four.</div>
+<div><br/></div>
+<div>1.2.5.3 Subtracting an integer from a pointer</div>
+<div>     it’s same with adding</div>
+<div><br/></div>
+<div>1.2.5.4 Subtracting two pointers</div>
+<div>     The difference by subtracting two pointers is not normally very useful except for determine the order of elements in an array.</div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/E57BB392-EAD6-480C-ACF8-92BD1665E816.png" height="90" width="232"/></div>
+<div><br/></div>
+<div>     ptrdiff_t is a portable way to express the difference between two pointers.</div>
+<div><br/></div>
+<div>1.2.5. Comparing pointers</div>
+<div>     used to determine the relative ordering of the array’s elements.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1.3 Common Uses of Pointers, constants and pointers</span></b></div>
+<div> </div>
+<div>1.3.1 Multiple Levels of Indirection</div>
+<div>     pinter to pointer…, double pointer.</div>
+<div>     main( argc, argv) </div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/3F0CAE3F-F6A3-49BC-94B6-53CEABA68A40.png" height="289" width="309"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/A4117CEE-4013-422F-A674-849B6B4C57FA.png" height="277" width="697"/><br/></div>
+<div><br/></div>
+<div>1.3.2 Constants and Pointers</div>
+<div><br/></div>
+<div>1.3.2.1 Pointer to a constant</div>
+<div>     This means the pointer cannot be used to modify the value it is referring .</div>
+<div>     The pointer value  is not constant.</div>
+<div><br/></div>
+<div>     const int limit = 100;</div>
+<div>     const int *pci = &amp;limit;</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/91932B07-5E10-4BB0-8AD8-F61DB41225BF.png" height="95" width="668"/><br/></div>
+<div><br/></div>
+<div>     The declaration of pci as a pointer to a constant integer means:</div>
+<div>     (1) pci can be assigned to point to different constant integers;</div>
+<div>     (2) pci can be assigned to point to different non constant integers ;</div>
+<div>     (3) pci can be dereferenced for reading purposes;</div>
+<div>     (4) pci cannot be dereferenced to change what it points to.</div>
+<div> </div>
+<div> by the way: const int *pci = int const *pci;</div>
+<div><br/></div>
+<div>1.3.2.2 Constant pointers to nonconstants</div>
+<div>     int num = 5;</div>
+<div>     int *const cpi = &amp;num;</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/82D1EADD-B29D-4FF6-B208-4D89BB133CE2.png" height="94" width="581"/><br/></div>
+<div>     (1) cpi must be initialised to a non constant variable;</div>
+<div>     (2) cpi can not be modified;</div>
+<div>     (3) The data pointed to by cpi can be modified</div>
+<div><br/></div>
+<div><br/></div>
+<div>1.3.2.3 Constant pointers to constant</div>
+<div>     const int * const cpci = &amp;limit; </div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/FCE6361C-EED7-4C36-9E75-ACF209A6A2C6.png" height="131" width="766"/></div>
+<div>1.3.2.4 Pointer to (constant pointer to constant)</div>
+<div>     const int * const cpci = &amp;limit;</div>
+<div>     const int * const *pcpci;</div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/D1DFB199-35FB-49FB-9907-42BB8E5CE293.png" height="120" width="811"/></div>
+<div><br/></div>
+<div>    <img src="Understanding%20and%20Using%20C%20Pointers.resources/F791F5FD-7B98-4DBE-94C9-D3BEE7A9C7F8.png" height="168" width="339"/></div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/E2E41AA1-7B12-44A6-8F9A-F60FD444A026.png" height="236" width="678"/><br/></div>
+<div>=================================================================================================</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Chapter 2 : Dynamic Memory Management in C</span></b></div>
+<div><br/></div>
+<div>     A C program executes within a runtime system, which supports the stack and heap.</div>
+<div>     Memory management is central to all programs.</div>
+<div><br/></div>
+<div>     implicit memory management:</div>
+<div>     (1) variables: allocated to the enclosing function’s stack frame;</div>
+<div>     (2) global and static variables: memory is placed in the application’s data segment; </div>
+<div><br/></div>
+<div>PS: C99 VLA Variable Length Arrays, the size is determined at runtime and not at compile time. However, once created, arrays still do not change size.</div>
+<div><br/></div>
+<div>     contents of this chapter:</div>
+<div>     section 1: memory allocated and freed, malloc, realloc, free</div>
+<div>     section 2: dangling pointers problem</div>
+<div>     section 3: alternate techniques for managing memory</div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">Section 1: memory allocated and freed, malloc, realloc, free</span></b></div>
+<div><br/></div>
+<div>2.1.1 Dynamic Memory Allocation</div>
+<div>     The basic steps used for dynamic memory allocation in C are:</div>
+<div>     (1) Use a malloc type function to allocate memory;</div>
+<div>     (2) Use this memory to support the application;</div>
+<div>     (3) Deallocate the memory using the free function.</div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/07ED76DC-0D07-4CE8-94FF-BACE686E8460.png" height="98" width="288"/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/49731074-62D9-4284-97ED-96FEA4261986.png" height="188" width="312"/></div>
+<div>     <b>malloc</b>: The <b>malloc</b> function single argument specifies the number of bytes to allocate.  If successful, it returns a pointer to memory allocated from the heap. If it fails, it returns a null pointer.</div>
+<div><br/></div>
+<div>     Each time the <b>malloc</b> function is called, a corresponding call to the <b>free</b> function must be made when the application is done with merry to avoid memory leaks.</div>
+<div><br/></div>
+<div><b>GOOD PRACTICE:</b>  Always assign NULL to a freed pointer.</div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/E66C0CA2-4EF8-4A49-8A8C-A945A1D680D9.png" height="118" width="291"/></div>
+<div><br/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/B9BA3F8C-C9A2-49B3-8458-EE0F0105051A.png" height="91" width="251"/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/9CE76359-8EF8-427C-B011-5AF820304774.png" height="102" width="619"/></div>
+<div><br/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/C7C650BC-CE5C-4E5B-9F50-933DDEEF5022.png" height="84" width="221"/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/FE78B99C-1B62-4687-9C0E-ED31216035A8.png" height="215" width="346"/></div>
+<div><br/></div>
+<div>2.1.2 Memory Leaks</div>
+<div>     A memory leak occurs when allocated memory is never used again but is not freed.  This can happen when:</div>
+<div>     (1) The memory’s address is lost;</div>
+<div>     (2) The free function is never invoked though it should be. also called a hidden leak.</div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/3ED0E2E7-6964-4EF4-B598-B7D9889A2A73.png" height="113" width="293"/></div>
+<div><br/></div>
+<div>2.1.2.1 losing the address</div>
+<div>     </div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/D67ECD9E-EC61-48B9-B742-5004F2EE87DA.png" height="74" width="261"/></div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/AB26F912-FCA7-4449-82BB-98C0E3234515.png" height="240" width="631"/><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/19788E13-92E6-4120-829D-6763B1D58A2F.png" height="128" width="401"/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/DEA3BB49-3673-4A08-B57B-49F6E637D64C.png" height="217" width="306"/></div>
+<div><br/></div>
+<div>2.1.2.2  Hidden memory leaks</div>
+<div>     programmer oversight..</div>
+<div><br/></div>
+<div>2.1.3  Dynamic Memory Allocation Functions </div>
+<div>     (1) malloc</div>
+<div>     (2) realloc</div>
+<div>     (3) calloc</div>
+<div>     (4) free</div>
+<div>     in the sodlib.h</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/0FA088D3-CAC2-447E-980A-87BBB63F576A.png" height="224" width="872"/><br/></div>
+<div><b><span style="font-size: 24px;">?</span></b> The memory allocated will be aligned according to the pointer’s data type. For example, a four-type integer would be allocated on an address boundary evenly divisible by four…  ??? why???</div>
+<div><br/></div>
+<div><br/></div>
+<div>2.1.4 Using the malloc function</div>
+<div>     from the heap;  the number of bytes is its single argument;  return type is a pointer to void.</div>
+<div>     if memory is not available, NULL is returned.</div>
+<div><br/></div>
+<div>     prototype: </div>
+<div>         <b> void * malloc(size_t);</b></div>
+<div>     typical use:</div>
+<div>          int *pi = (int*) malloc(sizeof(int));</div>
+<div>     </div>
+<div>     The following steps are performed when the malloc function is executed:</div>
+<div>     (1) Memory is allocated from heap;</div>
+<div>     (2) The memory is not modified or otherwise cleared;</div>
+<div>     (3) The first byte’s address is returned.</div>
+<div><br/></div>
+<div><b>GOOD PRACTICE:</b> Since the malloc function may return a NULL value if it is unable to allocate memory...</div>
+<div>     int *pi = (int*) malloc(sizeof(int));</div>
+<div>     if (pi != NULL) {</div>
+<div>          // Pointer should be good</div>
+<div>     } else {</div>
+<div>          // Bad pointer</div>
+<div>     }</div>
+<div><br/></div>
+<div>2.1.4.1 To cast or not to cast</div>
+<div>    explicit casting is a good practice.</div>
+<div>   </div>
+<div><b>INTERESTING</b>: By default, C assumes functions return an integer… if you fail to include a prototype for malloc, it will complain when you try to assign an integer to a pointer.</div>
+<div><br/></div>
+<div>2.1.4.2 Failing to allocate memory</div>
+<div>     int *pi;</div>
+<div>     printf(“%d\n”, *pi);</div>
+<div><br/></div>
+<div> <img src="Understanding%20and%20Using%20C%20Pointers.resources/6387002A-A34C-40D3-812D-28636DBFA721.png" height="215" width="285"/></div>
+<div>2.1.4.3 Not using the right size for the malloc function</div>
+<div>     double *pd = (double*) malloc(NUMBER_OF_DOUBLES * sizeof(double);</div>
+<div><br/></div>
+<div>2.1.4.4 Determining the amount of memory allocated</div>
+<div>     dependente</div>
+<div>2.1.4.5 Using malloc with static and global pointers</div>
+<div>     You cannot use a function call when initializing a static or global variable.</div>
+<div>     static int *pi = malloc(sifzeof(int)); // error</div>
+<div><br/></div>
+<div>     static inside a function:</div>
+<div>          static int *pi;</div>
+<div>          pi = malloc(sizeof(int));</div>
+<div><br/></div>
+<div>          it’s ok.  but not good for global, since it is outside the function.</div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/B0E48B61-FE93-4102-9E81-1450D76DCE03.png" height="61" width="338"/></div>
+<div><br/></div>
+<div>2.1.5 Using the calloc Function</div>
+<div>     The calloc funciona will allocate and clear memory at the same time. calloc = clear allocation</div>
+<div>     prototype:</div>
+<div>         <b> void * calloc(size_t numElements, size_t elementSize);</b></div>
+<div><br/></div>
+<div>     free means its contents are set to all binary zeros.</div>
+<div>     Originally, this function was used to aid in the allocation of memory for arrays.</div>
+<div><br/></div>
+<div>     if calloc is unable to allocate memory, a null pointer is returned and the global viable, <b>errno</b>, is set to <b>ENOMEM</b>(out of memory).</div>
+<div>     ENOMEM is POSIX error code...</div>
+<div>     </div>
+<div>     typical use:</div>
+<div>          int *pi = calloc(5, sizeof(int));</div>
+<div><br/></div>
+<div>     equals:</div>
+<div>          int *pi = malloc(5 * sizeof(int));</div>
+<div>          memset(pi, 0, 5 * sizeof(int)); </div>
+<div>     // The memset function will fill a block with a value(0). </div>
+<div><br/></div>
+<div>2.1.6 Using the realloc Function</div>
+<div>     The realloc function will decrease or increace the amount of memory allocated to a pointer.</div>
+<div>     prototype:</div>
+<div>          <b>void *realloc(void *ptr, size_t size);</b></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/4AE3DB8F-D2DF-40C2-ABA9-8DA2DEB0B1F6.png" height="241" width="977"/><br/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/B1A99C86-17EC-4048-8021-CF3A2F844543.png" height="168" width="412"/></div>
+<div><br/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/E826C92A-8F51-4B19-A684-EA564EEEAB02.png" height="36" width="319"/></div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/A6E7BB4B-BC98-4FB8-B933-13807392A688.png" height="221" width="455"/></div>
+<div>     we did not change the string to fit into the eight-byte block.</div>
+<div><br/></div>
+<div>2.1.7 The alloca function and Variable length arrays</div>
+<div>     The <b>alloca</b> function allocates memory by placing it in the stack frame for the function. When the function returns, the memory is automatically freed.</div>
+<div>     Variale Length Arrays(<b>VLAs</b>), allocation of memory is done at <b>runtime</b> and memory is allocated as part of the <b>stack</b> frame. </div>
+<div><br/></div>
+<div>2.1.8 Deallocating Memory using the free Function</div>
+<div>     prototype:</div>
+<div>          <b>void free(void *ptr);</b></div>
+<div>     typical use:</div>
+<div>          int *pi = (int*) malloc(sizeof(int));</div>
+<div>          free(pi);</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/B737B1C8-3FFA-4F58-A0B5-D0BEA61FE506.png" height="236" width="604"/><br/></div>
+<div><br/></div>
+<div>     it’s dangling pointer, pi….</div>
+<div><br/></div>
+<div>2.1.9  Assigning NULL to a Freed Pointer</div>
+<div>     int *pi = (int*) malloc(sizeof(int));</div>
+<div>     free(pi);</div>
+<div>     pi = NULL;</div>
+<div>     <img src="Understanding%20and%20Using%20C%20Pointers.resources/FE6FD866-4637-4DC7-A42F-A40ACC53F94E.png" height="230" width="294"/></div>
+<div><br/></div>
+<div>2.1.10 Double Free</div>
+<div>     int *pi = (int*) malloc(sizeof(int));</div>
+<div>     *pi = 5;</div>
+<div>     free(pi);</div>
+<div>     ...</div>
+<div>     free(pi); //runtime exception</div>
+<div><br/></div>
+<div>another:</div>
+<div>     p1 = (int*) malloc(sizeof(int));</div>
+<div>     int *p2 = p1;</div>
+<div>     free(p1);</div>
+<div>     ...</div>
+<div>     free(p2); // runtime exception</div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/9054EE8A-B696-40FD-9EF8-FBF76F58719F.png" height="273" width="596"/><br/></div>
+<div>2.1.11 The Heap and System Memory</div>
+<div>     when free happens, the heap manager does not necessarily return memory to the OS.</div>
+<div><br/></div>
+<div>2.1.12 Freeing Memory upon Program Termination</div>
+<div>     Whether memory should be deallocated prior to program termination is application specific.</div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">section 2: dangling pointers problem</span></b><br/></div>
+<div><br/></div>
+<div>     If a pointer still references the original memory after it has been freed, it is called a dangling pointer.</div>
+<div>     </div>
+<div>     example1:</div>
+<div>     int *pi = (int*) malloc(sizeof(int));</div>
+<div>     *pi = 5;</div>
+<div>     printf(“*p : %d\n”, *pi);</div>
+<div>     free(pi);</div>
+<div><br/></div>
+<div>     *pi = 10; // the result of this action is unpredictable .</div>
+<div><br/></div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/E52CBA12-DFAE-4AE2-AFF2-FE9BC38C19F8.png" height="233" width="577"/><br/></div>
+<div><br/></div>
+<div>     example2:</div>
+<div>     int *pi;</div>
+<div><br/></div>
+<div>     {</div>
+<div>          int tmp = 5;</div>
+<div>          pi = &amp;tmp;</div>
+<div>     }</div>
+<div>     // pi is now a dangling pointer</div>
+<div><img src="Understanding%20and%20Using%20C%20Pointers.resources/CA5D34FA-FE63-4BD3-BB67-E635F8473ED2.png" height="235" width="584"/></div>
+<div>2.2.1 Dealing with Dangling Pointers</div>
+<div>     (1) Setting a pointer to NULL after freeing it.</div>
+<div>     (2) Writing special functions to replace the free function. (page 70)</div>
+<div>     (3) Some system (runtime/debugger) will overwrite data when it is freed.  Visual Studio use 0xCC, 0xCD, or 0xDD</div>
+<div>     (4) Use third-party tools to detect dangling pointers and other problems.</div>
+<div><br/></div>
+<div>     print pointer address  or using assert macro.</div>
+<div><br/></div>
+<div>2.2.2 Debug version support for detecting memory leaks</div>
+<div>     Microsoft</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>section 3: alternate techniques for managing memory</b></span><br/></div>
+<div><br/></div>
+<div>2.3.1 Dynamic Memory Allocation Technologies</div>
+<div>     ...</div>
+<div>2.3.2 Garbage Collection in C</div>
+<div>     ...</div>
+<div>2.3.3 Resource Acquisition is initializtion</div>
+<div>     RAII is a technique in C++</div>
+<div>2.3.4 Using Exception Handlers</div>
+<div>     Exception handler is not a standard part of C.  Microsoft VS C has.</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>
