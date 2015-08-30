@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="altitude" content="39.79259490966797"/><meta name="author" content="Johnny.Hsu"/><meta name="created" content="2014-12-23 02:39:06 +0000"/><meta name="latitude" content="30.28941074644904"/><meta name="longitude" content="120.1417976994929"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2014-12-24 09:02:56 +0000"/><title>UAUCP_Chapter4:Pointers and Arrays</title></head><body>
+<div>     An array name is not a pointer.</div>
+<div>     1. Quick Review of Arrays</div>
+<div>     2. Pointer Notation and Arrays</div>
+<div>     3. Using malloc to Create a One-Demensional Array</div>
+<div>     4. Using the realloc Function to Resize an Array</div>
+<div>     5. Passing a One-Dimensional Array of Pointers</div>
+<div>     6. Using a One-Dimensional Array of Pointers</div>
+<div>     7. Pointers and Multidimensional Array</div>
+<div>     8. Passing Multidimensional Array</div>
+<div>     9. Dynamically Allocating a Two-Dimensional Array</div>
+<div>     10. Jagged Array and Pointers</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section 1. Quick Review of Arrays</span></b></div>
+<div><br/></div>
+<div>     An array is a <b>contiguous</b> collection of <b>homogeneous</b> elements that can be accessed using an index.</div>
+<div>     <b>The realloc function</b> and <b>variable length arrays(C99)</b> provide techniques for dealing with arrays whose size needs to change.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1.1 One-Dimensional Arrays</span></b></div>
+<div><br/></div>
+<div>     A one -dimensional array is a linear structure.</div>
+<div>     int vector[5];</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/026BE3B1-0FCE-443C-9C98-67D5844122F5.png" height="163" width="179"/></div>
+<div>     The array name simply references a block of memory.</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/D624E323-6EC5-4F31-ACA0-75D03E06C47F.png" height="167" width="370"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">1.2 Two-Dimensional Arrays</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/F35986CF-48E5-4343-B09F-11E5CB2D4E25.png" height="111" width="440"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/29865933-79AA-42CA-AA18-82D71BDDCE3D.png" height="35" width="337"/></div>
+<div>    </div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/6E3D5A5E-B53A-4F88-852F-14289D800605.png" height="193" width="443"/></div>
+<div>     </div>
+<div><b><span style="font-size: 18px;">1.3 Multidimensional Arrays</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/E5FC25FD-EDC9-4519-B6D7-3245D8D16D4F.png" height="105" width="253"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/0D1AC5F4-2B1A-408D-A2DD-5E5B02408EE5.png" height="279" width="220"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section2. Pointer Notation and Arrays</span></b><br/></div>
+<div><br/></div>
+<div>     We allocate memory from heap and then treat the memory as if it were an array.</div>
+<div>     When an array name is used by itself, the array’s address is returned.</div>
+<div>     &amp;vector returns a pointer to the entire array,  an array of integers.</div>
+<div>     pv[i] is evaluated as *(pv + i)</div>
+<div><br/></div>
+<div><br/></div>
+<div>     <b>vector </b>and <b>&amp;vector[0]</b> are equivalent, return <b>the address of vector</b>. </div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/05C84D5C-16E6-4729-97FA-901C80BD527D.png" height="254" width="452"/></div>
+<div><img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/66FB8D10-DBCB-4E8A-BC43-C8D49A3240F0.png" height="316" width="563"/></div>
+<div><br/></div>
+<div>     “Shift and dereference” : The expression vector[2] means start with vector, which is a pointer to the beginning of the array, shift two positions to the right, and then dereference that location to fetch its value.</div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">2.1 Differences Between Arrays and Pointers</span></b></div>
+<div><br/></div>
+<div>     The notation <b>vector[i]</b> generates machine code that starts at location vector, <b>moves i positions</b> form this location, and uses its content;</div>
+<div>     Tho notation <b>*(vector+i)</b> generates machine code that starts at location vector, <b>adds i to the address</b>, and then uses the contents at that address.</div>
+<div><br/></div>
+<div>    int vector[5] = {1,2,3,4,5,};</div>
+<div>    int *pv = vector;</div>
+<div>     </div>
+<div>     differences:</div>
+<div>     (1)  sizeof(vector) = 20, sizeof(pv) = 4;</div>
+<div>     (2)  pv is an lvalue, could be modified;  </div>
+<div>          vector is NOT an lvalue, can NOT be modified.</div>
+<div>          </div>
+<div>          pv = pv + 1;  // ok</div>
+<div>          vector = vector + 1; //syntax error</div>
+<div>          pv = vector + 1; // ok</div>
+<div><br/></div>
+<div> <b><span style="font-size: 24px;">Section3, Using malloc to Create a One-Demensional Array</span></b><br/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/71AA07E8-53C1-4657-B71E-AA00FDB6B510.png" height="105" width="434"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/34DD90E9-CC4B-4827-B3E7-4B58D13A390B.png" height="219" width="248"/></div>
+<div><br/></div>
+<div> <b><span style="font-size: 24px;">Section4. Using the realloc Function to Resize an Array</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/9CC81AF2-E971-4501-9D18-E863A3C516C6.png" height="802" width="581"/></div>
+<div><img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/A83E9C6A-EC3D-4172-A7FC-03529109EE12.png" height="302" width="681"/></div>
+<div><b>PS</b>: currentPosition = newBuffer + (currentPosition - buffer);</div>
+<div>explanation:</div>
+<div>     befor: buffer = 500, currentPostion = 510, 这个时候来了第10个字符， 是个空格字符 space, ascii 32</div>
+<div>     after: 因为new buffer  copy了buffer的内容，所以要将currentPosition指向new buffer;</div>
+<div>               newbuffer = 1000, currentPosition = 1010</div>
+<div>     </div>
+<div>     main:</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/34958133-B304-49EF-93AF-3035E1B50CBF.png" height="58" width="376"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/1F944926-8A77-4E24-9292-D8C2173832F6.png" height="240" width="378"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/54F0242D-5A68-42A5-B1C2-F91604C221AD.png" height="332" width="355"/></div>
+<div><br/></div>
+<div><b>PS</b>: </div>
+<div>(1) strlen(“cat”) = 3, malloc内存空间要4，最后一位放NUL或0或’\0’;  “cat”存在长度为10的内存空间中strlen还是3。</div>
+<div>(2) strcpy(buffer, “cat”), 具体不确定，但buffer长度应该需要4,猜测是从头开始copy的，最后加0；</div>
+<div>(3) while (*old) {</div>
+<div>          *(new++) = *(old++);</div>
+<div>     }</div>
+<div>     这个。。。括号还有用吗。。。</div>
+<div>     等价为：</div>
+<div>     while (*old) {</div>
+<div>          *new = *old;</div>
+<div>          new++;</div>
+<div>          old++;</div>
+<div>     }</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section 5. Passing a One-Dimensional Array of Pointers</span></b></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">5.1 Using Array Notation</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/39D08780-451F-45E8-BD5C-CFE8FE5B9AAF.png" height="292" width="327"/></div>
+<div><br/></div>
+<div><img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/3E1118F2-1263-46B1-867D-32D75D33CA3F.png" height="335" width="362"/></div>
+<div><b>PS</b>:  the definition of a function that with an array parameter.</div>
+<div>     void displayArray(int arr[ ], int size);</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">5.2 Using Pointer Notation</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/05D12171-BD9C-4C7B-B0E0-4D565A086090.png" height="461" width="337"/></div>
+<div><br/></div>
+<div>     无论arr[] 还是* arr都可以用arr[i], *(arr+i);</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section6. Using a One-Dimensional Array of Pointers</span></b><br/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/B387C4F6-61DE-43F0-8A66-438AB39CDFCF.png" height="273" width="369"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/F206ECEA-D69D-4B48-877A-EE14F17486E3.png" height="312" width="315"/></div>
+<div>这个知识点掌握的不好。page 92</div>
+<div>int* arr[5];  这是什么？ 这是指针数组，即一个数组arr, 每个数组里的值是指针（是地址）。</div>
+<div>所以：</div>
+<div>     arr:  an array of pointers;当然也表示 arr[0]的地址100；</div>
+<div>     arr[0] : 是个指向int的指针（地址）500。</div>
+<div>     *arr[0] : 指针的dereference, 0;</div>
+<div>另一种表示：</div>
+<div>     *(arr+0) : arr[0]</div>
+<div>     **(arr+0) : *arr[0]</div>
+<div><br/></div>
+<div>int (*arr)[5] : 这个就不一样了，参见section8，这是二维数组。</div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section7. Pointers and Multidimensional Array</span></b><br/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/DA9F7D8F-8B14-4784-A7CE-534831838941.png" height="147" width="409"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/545754E2-A36F-4181-9C92-EC6023397F9A.png" height="205" width="391"/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/214E1AA6-BDEF-4919-9AA2-263EB4B4DB16.png" height="88" width="367"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/A0BA6AE2-52EE-4FBE-ADEF-BAC7D4423F0F.png" height="69" width="128"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/8759AF16-F208-4311-8DDB-9F7757F9CFD0.png" height="75" width="488"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section 8. Passing Multidimensional Array</span></b></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/8A4D71D6-B83C-4B54-BE01-7AF3B5876BCF.png" height="140" width="330"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/8157F1F9-CF47-405C-8F1B-3CA876B0E638.png" height="40" width="239"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/EE783139-00A3-42D5-8967-C699CDC8C4E4.png" height="33" width="66"/></div>
+<div><br/></div>
+<div>     int arr[][5] = (int* arr)[5] &lt;&gt; int* arr[5]</div>
+<div><br/></div>
+<div>     当不确定列数的做法：</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/CC53BBF6-D3B0-4634-85AE-CB884EF458A6.png" height="41" width="348"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/03BC843A-2463-43B9-BD8F-7AEBEBC3B1BA.png" height="170" width="441"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/A41889C7-97A1-4E86-8C1E-2D9A6D667712.png" height="150" width="690"/></div>
+<div><br/></div>
+<div>     书中解释为什么a[i][j]不能用：</div>
+<div>     This is not possible because the pointer is not declared as a two-dimensional array. </div>
+<div>     However, it is possible to use array notation. (arr + i)[j].</div>
+<div>     We can use a single subscript since it will be interpreted simply as an offset within the array, whereas two subscripts cannot be used because the compiler doesn’t known the size of the dimensions.</div>
+<div><br/></div>
+<div><br/></div>
+<div>     3 Dimension:</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/7430F32F-231D-4F7A-A478-A6B1971B63CC.png" height="130" width="250"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/267D19A3-C3A4-4319-891E-91444037DE4A.png" height="207" width="355"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/08F7E791-DC95-4B39-A22C-0F446BB59956.png" height="283" width="221"/></div>
+<div><b><span style="font-size: 24px;"><br/></span></b></div>
+<div><b><span style="font-size: 24px;">Section9. Dynamically Allocating a Two-Dimensional Array</span></b></div>
+<div><br/></div>
+<div>     int matrix[2][5] = {[1,2,3,4,5},{6,7,8,9,10}},  Memory is allocated contiguously.</div>
+<div>     用malloc出来的不一定连续。 因为是an array of arrays.</div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">9.1 Allocating  Potentially Noncontiguous Memory</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/A76CDB09-F706-4D5D-8A62-DA75D25B5F40.png" height="134" width="399"/></div>
+<div>     *(&amp;matrix[0] + i)  or</div>
+<div>     *(matrix + i)</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/C8D4EC04-41B6-44C6-8F8A-4510F3D1993C.png" height="158" width="446"/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/3E2FE24A-95A3-4FA6-9112-1D773EE163A1.png" height="307" width="414"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">9.2 Allocating Contiguous Memory</span></b></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/14AD14EE-65DC-4281-A6B3-4DA6B5323301.png" height="96" width="407"/></div>
+<div><img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/B5AA9F83-912A-4062-9234-F1405C832F30.png" height="306" width="529"/></div>
+<div><b><span style="font-size: 24px;">Section 10. Jagged Array and Pointers</span></b></div>
+<div><br/></div>
+<div>     A jagged array is a two-dimensional array possessing a different number of columns for each row.</div>
+<div>     <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/23B809C2-00FF-42CD-BE34-FB1E5169D9A4.png" height="161" width="303"/></div>
+<div>     </div>
+<div>     Compound literal: A compound literal is a C construct that consists of what appears to be a cast operator followed by an initialiser list enclosed in braces.</div>
+<div>     e.g.</div>
+<div>     (1) (const int) {100}</div>
+<div>     (2) (int[3]) {10,20,30}</div>
+<div><br/></div>
+<div><br/></div>
+<div>问题来了：</div>
+<div>     int * arr[ ];               :  arr is array of pointer to int</div>
+<div>     int (*arr) [ ];             :  arr is pointer to array of int</div>
+<div>     int (*(arr[ ]));            :  arr is array of pointer to int </div>
+<div>                                             () : function returning</div>
+<div>     </div>
+<div>
+<pre>
+   char *(*(**arr[][8])())[]; // <i>huh ?????</i>
+</pre></div>
+<div><br/></div>
+<div>     The "array of" <b>[]</b> and "function returning" <b>()</b> type operators have higher precedence than "pointer to" <b>*</b></div>
+<div><b>     </b>In arrays, only the leftmost [] can be undimensioned.</div>
+<div><b>     </b></div>
+<div><b><br/></b></div>
+<div><b>    </b> <img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/71B8EC24-A83C-4644-9FBF-454DDF870244.png" height="324" width="447"/></div>
+<div><b>     </b><img src="UAUCP_Chapter4%3APointers%20and%20Arrays.resources/A0033E8D-8A61-45F2-A25E-599A386AC19C.png" height="209" width="371"/><b><br/></b></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>

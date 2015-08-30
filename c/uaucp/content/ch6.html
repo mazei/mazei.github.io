@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="altitude" content="11.86359786987305"/><meta name="author" content="Johnny.Hsu"/><meta name="created" content="2014-12-29 08:08:56 +0000"/><meta name="latitude" content="30.31208511718491"/><meta name="longitude" content="120.1167092505377"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2014-12-31 06:22:38 +0000"/><title>UAUCP_Chapter6 Pointers and Structures</title></head><body>
+<div>
+<div>Section1: Introduction</div>
+</div>
+<div>     1.1 How Memory is Allocated for a Structure</div>
+<div>Section2: Structure Deallocation Issues</div>
+<div>Section3: Avoiding malloc/free Overhead</div>
+<div>Section4: Using Pointers to Support Data Structures</div>
+<div>     4.1 Single-Linked List</div>
+<div>     4.2 Using Pointers to Support a Queue</div>
+<div>     4.3 Using Pointers to Support a Stack</div>
+<div>     4.4 Using Pointers to Support a Tree</div>
+<div><br/></div>
+<div>
+<div>
+<div><b><span style="font-size: 24px;">Section1: Introduction</span></b></div>
+</div>
+</div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/BD4719A4-85E7-4CF7-ADF1-98C79DC2EA15.png" height="461" width="693"/></div>
+<div><b><span style="font-size: 18px;">     1.1 How Memory is Allocated for a Structure</span></b></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/9CA52266-0EF7-4C02-9E60-33C4B1B2C0EE.png" height="650" width="693"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/413615B9-FA18-459A-AF0C-8A5AEB738F5C.png" height="50" width="358"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/510FC3C7-32C6-475C-9ECC-C66DA22380BA.png" height="394" width="231"/>     </div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section2: Structure Deallocation Issues</span></b></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/C97C580F-55F8-44E7-B5A6-30A4237D4C8E.png" height="105" width="185"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/C6B4C120-9155-40BC-8B17-FCD2C6F9350C.png" height="18" width="114"/></div>
+<div><img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/73ED8FA8-1FCE-4BC3-84BA-26D077571E95.png" height="368" width="510"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/7EBFA02A-F49A-4E8D-90A0-E46EB73B65B3.png" height="176" width="452"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/E0CC8EFF-9AB6-4CEB-BCC7-A9F91798F434.png" height="37" width="444"/></div>
+<div><img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/209329B8-E7E2-40CE-945D-CDA6333A96E3.png" height="479" width="641"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/B53F0CD3-DE87-4E74-B960-0F0B52E7870A.png" height="454" width="663"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/7CC322C8-F702-4360-BF64-BEC78853BEE5.png" height="87" width="296"/></div>
+<div><img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/FA103A01-2C02-4324-A3C3-B0F11DD747DE.png" height="474" width="643"/><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section3: Avoiding malloc/free Overhead</span></b></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/482AD64F-1461-4309-AA89-130D1250534B.png" height="177" width="193"/></div>
+<div>    main:</div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/8FDB8F12-0C89-4EAF-8362-42154A29160C.png" height="119" width="453"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/CECC49A5-C398-4155-B644-76A4848EEB4E.png" height="580" width="518"/></div>
+<div>     </div>
+<div>     why?</div>
+<div><b><span style="font-size: 24px;">Section4: Using Pointers to Support Data Structures</span></b></div>
+<div>     </div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     4.1 Single-Linked List</span></b></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/B5BF5185-86F5-492D-8222-927BEF0C7551.png" height="768" width="646"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/3FB5B38A-65DB-4E98-BF34-355C5767AA10.png" height="476" width="442"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/D0A07A8D-9BE2-4B37-A7C9-F5B3B7A121F6.png" height="839" width="457"/></div>
+<div>     displayLinkedList(&amp;linkedList, (DISPLAY)displayEmployee);</div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/31FBC7C7-DBD1-4C08-87F8-2C067525FD72.png" height="105" width="419"/></div>
+<div><img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/ED5676C8-5E68-409B-A253-C4D6B2DA7C56.png" height="659" width="690"/></div>
+<div><br/></div>
+<div>     删除sally</div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/000D1655-0610-4364-A68D-41CB8636A5F2.png" height="65" width="584"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/19814AFF-37AB-4EE7-989F-E34ADC03F2A1.png" height="497" width="444"/></div>
+<div><img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/6DFDE6E9-A09C-49F1-8BEE-4DCC9EC1AA10.png" height="659" width="695"/><br/></div>
+<div><b><span style="font-size: 18px;">     4.2 Using Pointers to Support a Queue</span></b></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/479C5056-D994-463A-BE33-27C3A5A9C5E3.png" height="28" width="185"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/84820F8A-DA89-4BB5-A154-3EBDAF20E601.png" height="174" width="348"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/11B42604-9D28-451D-824B-E9C66774C0EF.png" height="531" width="323"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/E3008AFD-7555-4AB6-9F36-07F76ABD7C59.png" height="19" width="123"/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     4.3 Using Pointers to Support a Stack</span></b></div>
+<div><br/></div>
+<div>      <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/B7F74BE2-A790-4A7C-8184-7E359F7A6686.png" height="17" width="189"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/0F88B90D-96D5-4BCB-AA66-3AF90D7C4B24.png" height="175" width="294"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/94C68FB8-20AC-4978-B21F-48734AE37E8A.png" height="416" width="319"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/1623492C-C3B1-44AA-8B39-9E83E900D8C7.png" height="20" width="102"/></div>
+<div><b><span style="font-size: 18px;">     4.4 Using Pointers to Support a Tree</span></b></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/1F328A68-A798-4787-87A8-C1C241398F61.png" height="818" width="471"/></div>
+<div>     </div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/91A9A5B0-5BF6-4B44-A643-A31363C66E58.png" height="531" width="476"/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/C93BE173-8FD1-4A24-B6B6-A672E800EFFB.png" height="495" width="484"/></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter6%20Pointers%20and%20Structures.resources/C65C95EB-3A81-4146-9E10-E758999726A5.png" height="66" width="393"/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>

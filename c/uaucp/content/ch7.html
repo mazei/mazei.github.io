@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="altitude" content="38.95354080200195"/><meta name="author" content="Johnny.Hsu"/><meta name="created" content="2014-12-31 06:23:16 +0000"/><meta name="latitude" content="30.28920714534673"/><meta name="longitude" content="120.1415133046084"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2015-01-04 06:25:52 +0000"/><title>UAUCP_Chapter7: Security Issues and the Improper Use of Pointers</title></head><body>
+<div>Section 1: Pointer Declaration and Initialization</div>
+<div>     1.1 Improper Pointer Declaration</div>
+<div>     1.2 Failure to Initialise a Pointer Before it is Used</div>
+<div>     1.3 Dealing with Uninitialised Pointers</div>
+<div>Section 2: Pointer Usage Issues</div>
+<div>     2.1 Test for NULL</div>
+<div>     2.2 Misuse of the Dereference Operator</div>
+<div>     2.3 Dangling Pointers</div>
+<div>     2.4 Accessing Memory Outside the Bounds of an Array</div>
+<div>     2.5 Calculating the Array Size Incorrectly</div>
+<div>     2.6 Misusing the sizeof Operator</div>
+<div>     2.7 Always Match Pointer Types</div>
+<div>     2.8 Bounded Pointers</div>
+<div>     2.9 String Security Issues</div>
+<div>     2.10 Pointer Arithmetic and Structures</div>
+<div>     2.11 Function Pointer Issues</div>
+<div>Section 3: Memory Deallocation Issues</div>
+<div>     3.1 Double Free</div>
+<div>     3.2 Clearing Sensitive Data</div>
+<div>Section 4: Using Static Analysis Tools</div>
+<div><br/></div>
+<div><span style="font-size: 24px;"><b>Section 1: Pointer Declaration and Initialization</b></span></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     1.1 Improper Pointer Declaration</b></span></div>
+<div><br/></div>
+<div>      int* ptr1, ptr2; // equivalent to  int* ptr1;  int ptr2;</div>
+<div>      Correct approach bill be:  int *ptr1, *ptr2;</div>
+<div><br/></div>
+<div>     #define PINT int*</div>
+<div>     PINT ptr1, ptr2;</div>
+<div>    </div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     1.2 Failure to Initialise a Pointer Before it is Used</b></span></div>
+<div><br/></div>
+<div>     Wild pointer:  Using a pointer before it is initialized can result a run-time error.  e.g.</div>
+<div>     int* pi;</div>
+<div>     ...</div>
+<div>     printf(“%d\n”, *pi);</div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/546C8EA2-9CCA-47BD-8668-3A1640244304.png" height="71" width="126"/></div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     1.3 Dealing with Uninitialised Pointers</b></span></div>
+<div>     Three approaches:</div>
+<div>     (1) Always initialise a pointer with NULL</div>
+<div>     (2) Use the assert function</div>
+<div>     (3) Use third-party tools</div>
+<div>     </div>
+<div>     (1). </div>
+<div>     int* pi = NULL;</div>
+<div>     ...</div>
+<div>     if (pi == NULL) {</div>
+<div>          // pi should not be dereferenced</div>
+<div>     } else {</div>
+<div>          .. pi can be used</div>
+<div>     }</div>
+<div>     it’s tedious...</div>
+<div>     (2) </div>
+<div>     #include &lt;assert.h&gt;</div>
+<div>     ...</div>
+<div>     assert(pi != NULL);</div>
+<div>     // If the expression is true, then nothing happens. If the expression is false, then the program terminates.</div>
+<div><br/></div>
+<div>     in debug version: the application will not terminated, it will output: “Assertion failed: pi != NULL” .</div>
+<div><br/></div>
+<div><span style="font-size: 24px;"><b>Section 2: Pointer Usage Issues</b></span></div>
+<div><br/></div>
+<div>     Buffer overflow can happen by:</div>
+<div>     (1) Not checking the index values used when accessing an array’s elements</div>
+<div>     (2) Not being careful when performing pointer arithmetic with array pointers;</div>
+<div>     (3) Using functions such as gets to read in a string from standard input;</div>
+<div>     (4) Using functions such as strcpy and strcat improperly.</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.1 Test for NULL</b></span></div>
+<div><br/></div>
+<div>     float* vector = malloc(20 * sizeof(float));</div>
+<div>     if (vector == NULL) {</div>
+<div>          // malloc failed to allocate memory</div>
+<div>     } else {</div>
+<div>          // Process vector</div>
+<div>     }</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.2 Misuse of the Dereference Operator</b></span></div>
+<div>     int num;</div>
+<div>     int *pi = &amp;num;</div>
+<div><br/></div>
+<div>     Another seemingly equivalent declaration: </div>
+<div>     int num;</div>
+<div>     int* pi;</div>
+<div>     *pi = &amp;num; // error</div>
+<div>     // We are attempting to assign the address of num not to pi but rather to the memory location specified by the contents of pi.</div>
+<div><br/></div>
+<div>    The correct sequence follows:</div>
+<div>     int num;</div>
+<div>     int* pi;</div>
+<div>     pi = &amp;num;</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.3 Dangling Pointers</b></span></div>
+<div>     </div>
+<div>     A dangling pointer occurs when a pointer is freed but still references that memory.  Page 51 for details.</div>
+<div>     int* pi = (int*) malloc(sizeof(int));</div>
+<div>     *pi = 5;</div>
+<div>     printf(“%d\n”, *pi);</div>
+<div>     free(pi);</div>
+<div><br/></div>
+<div>     摇摆指针</div>
+<div>     如上例，pi内存地址100(栈中)， pi存地址500（堆中）。地址500放数字5。</div>
+<div>     free(pi) 释放了地址500的内存块。但pi仍指向f地址500。</div>
+<div>     接下来我可以：</div>
+<div>     *pi = 10;  // 结果不可预测</div>
+<div><br/></div>
+<div>     解决办法：</div>
+<div>     （1）setting a pointer to NULL after freeing it;</div>
+<div>     （2）new free function;</div>
+<div>     （3）some system will override data when it is freed (e.g. 0XDEADBEEF, VS use 0xCC , 0xCD or 0xDD);</div>
+<div>     （4）using third-part tools</div>
+<div><br/></div>
+<div>     关于new free function:</div>
+<div>     void saferFree(void **pp) {</div>
+<div>          if (pp != NULL &amp;&amp; *pp != NULL) {</div>
+<div>               free(*pp);</div>
+<div>               *pp = NULL;</div>
+<div>          }</div>
+<div>     }</div>
+<div><br/></div>
+<div>     一般用时：</div>
+<div>     #define saferFree(p)  saferFree((void**)&amp;(p))</div>
+<div><br/></div>
+<div>     int main() {</div>
+<div>          int* pi;</div>
+<div>          pi = (int*) malloc(sizeof(int));</div>
+<div>          *pi = 5;</div>
+<div>          printf(“Before: %p\n”, pi);</div>
+<div>          saferFree(pi);</div>
+<div>          return (EXIT_SUCCESS);</div>
+<div>     }</div>
+<div>     看page 51, page 71</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.4 Accessing Memory Outside the Bounds of an Array</b></span></div>
+<div>     </div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/BEA2FCE0-CC1C-413D-9F7F-6ED9FF1C424C.png" height="273" width="383"/></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/355378EF-A69D-463C-92DB-7C7CE52AF3FC.png" height="322" width="702"/></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/C21433F1-57CA-439B-98F2-F2E2E289DC6F.png" height="182" width="371"/></div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.5 Calculating the Array Size Incorrectly</b></span></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/48F755F1-C335-4A9E-98EA-ED27793F84AD.png" height="340" width="459"/></div>
+<div>     若Alexand 改为Alexander编译都过不了，c99有验证？</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.6 Misusing the sizeof Operator</b></span></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/B80ABF8A-FCAC-4E7C-BF2E-983E0B89442F.png" height="41" width="260"/></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/8B870BAC-2379-451A-83C5-8DF6C8C52443.png" height="14" width="30"/><img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/8B870BAC-2379-451A-83C5-8DF6C8C52443.png" height="14" width="30"/>80</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.7 Always Match Pointer Types</b></span></div>
+<div><br/></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/FBD4A21D-4422-4FEF-B0D5-84D89B71097E.png" height="207" width="503"/></div>
+<div>     <img src="UAUCP_Chapter7%3A%20Security%20Issues%20and%20the%20Improper%20Use%20of%20Pointers.resources/002C6460-008C-4942-B93A-CC01F0183EB2.png" height="50" width="430"/></div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.8 Bounded Pointers</b></span></div>
+<div>     #define SIZE 32</div>
+<div>     char name[SIZE];</div>
+<div>     char* p = name;</div>
+<div>     if (name != null) {</div>
+<div>          if (p &gt;= name &amp;&amp; p &lt; name + SIZE) {</div>
+<div>               // valid pointer</div>
+<div>          } else {</div>
+<div>               // invalid pointer</div>
+<div>          }</div>
+<div>     }</div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     2.9 String Security Issues</span></b></div>
+<div><br/></div>
+<div>     strcpy_s, scanf_s 等。。。</div>
+<div><br/></div>
+<div><span style="font-size: 18px;"><b>     2.10 Pointer Arithmetic and Structures</b></span></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     2.11 Function Pointer Issues</span></b></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section 3: Memory Deallocation Issues</span></b></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     3.1 Double Free</span></b></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 18px;">     3.2 Clearing Sensitive Data</span></b></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><b><span style="font-size: 24px;">Section 4: Using Static Analysis Tools</span></b></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</body></html>
