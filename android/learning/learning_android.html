@@ -1,0 +1,946 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.16 (451862)"/><meta name="created" content="2014-02-10 06:05:28 +0000"/><meta name="source-url" content="https://thenewcircle.com/s/post/1178/architecting_android_apps"/><meta name="updated" content="2014-09-28 03:47:17 +0000"/><title>Learning Android</title></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
+<div style="font-size: 24px;"><b>IMPortant</b></div>
+<div style="font-size: 24px;"><span style="font-size: medium;">emulator need prefer to genymotion!!!</span><b><br/></b></div>
+<div style="font-size: 24px;"><span style="font-size: medium;">www.genymotion.com</span></div>
+<div style="font-size: 24px;"><span style="font-size: medium;"><br/></span></div>
+<div style="font-size: 24px;"><b>Chapter1~2</b></div>
+<div style="font-family: Courier,">1.Android SDK selection</div>
+<div style="font-family: Courier,">keyword: <b>android device dashboard</b></div>
+<div style="font-family: Courier,">url : <a href="http://developer.android.com/about/dashboards/index.html">http://developer.android.com/about/dashboards/index.html</a></div>
+<div style="font-family: Courier,">snapshot from front-2014: </div>
+<div style="font-family: Courier,"><img src="Learning%20Android.resources/A5BDCDE3-8246-4ED2-A261-8B04E0DFAA34.png" height="311" width="756"/></div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,">2. Android Stack overview</div>
+<div style="font-family: Courier,"><img src="Learning%20Android.resources/5515B0BA-3BB9-4B88-85A2-9BDEA4520D00.png" height="420" width="587"/></div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,">3. Native Libraries（图中的Libraries）</div>
+<div style="font-family: Courier,">The native libraries are C/C++ libraries.</div>
+<div style="font-family: Courier,">(1) WebKit: Safari, Chrome都在用的web-rendering engine</div>
+<div style="font-family: Courier,">(2) SQLite: A full-featured SQL database</div>
+<div style="font-family: Courier,">(3) Apache Harmony : An open source implementation of Java</div>
+<div style="font-family: Courier,">(4) OpenGL : 3D Graphics libraries</div>
+<div style="font-family: Courier,">(5) OpenSSL : the secure locket layer</div>
+<div style="font-family: Courier,">(6) Bionic : 这是Standard C library的重写，出于Technology与License两方面考虑</div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,">4. Dalvik (图中的Runtime)</div>
+<div style="font-family: Courier,">Dalvik is VM designed specifically fro Android.</div>
+<div style="font-family: Courier,"><img src="Learning%20Android.resources/1F42932A-65E3-449D-8697-391E76D517FD.png" height="595" width="551"/></div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,">====================================================================</div>
+<div style="font-size: 24px;">Chapter 3 Quick Start</div>
+<div style="font-family: Courier,">
+<div><br/></div>
+<div>1. 关于/与\ 还有~</div>
+<div>/ 斜杠 ,  Mac, Linux</div>
+<div>\ 反斜杠, windows</div>
+<div><br/></div>
+<div>~的路径：</div>
+<div>mac: /Users/xugg</div>
+<div>linux: /home/xugg</div>
+<div>win7: <a href="file:///C:/Users/xugg">C:\Users\xugg</a></div>
+<div>winxp: <a href="file:///C:/Documents">C:\Documents</a> and settings\xugg</div>
+<div><br/></div>
+<div>2. Installing the Android SDK</div>
+<div>(1) Downloading ADT(Adnroid developor tools) : <a href="http://developer.android.com/sdk/index.html?utm_source=weibolife">http://developer.android.com/sdk/index.html?utm_source=weibolife</a></div>
+<div>(2) 选择安装c:\apps\android-sdk (实际是copy sdk下的文件到此)</div>
+<div>(3) 配置，因为工具可能会直接在命令行中执行</div>
+<div>     ~/android-sdk/tools/</div>
+<div>     ~/android-sdk/platform-tools/</div>
+<div>     回到系统PATH</div>
+<div>(4) IDE (Integrated Development Environment) Eclipse : <a href="https://www.eclipse.org/">https://www.eclipse.org/</a> 下载java版，而不是EE版</div>
+<div>     d/e:\workspace</div>
+<div>(5) 设置 ， 新的adt下直接有eclipse可运行。。。若不管，要独立eclipse也行，则：</div>
+<div>     Help -&gt; Install New Software</div>
+<div>     ADT - <a href="https://dl-ssl.google.com/android/eclipse">https://dl-ssl.google.com/android/eclipse</a>  选择android DDMS, android Development Tools</div>
+<div>     上面若有问题，改https为http</div>
+<div>注：java环境更应优先</div>
+<div><br/></div>
+<div>3. Hello world</div>
+<div>(1) File -&gt; new -&gt; android project , 第一次没有，用File-&gt; new -&gt; other -&gt; Android Application Project</div>
+<div>(2) Application Name是在app store之类上看的，写Hello, World!!!</div>
+<div>     Project Name用双大写，HelloWorld</div>
+<div>     Package Name 是domain的逆，如com.example.calculator是example.com下的一个caculator</div>
+<div>     用选择com.mazei.helloworld</div>
+<div>     sdk选择有：</div>
+<div>          min最小 8</div>
+<div>          target sdk 18</div>
+<div>          complie sdk  19</div>
+<div>     这就有疑问了，target到底有啥讲究？</div>
+<div>     acitivty: 这是为了适应不同屏幕尺寸的，用HelloWorld</div>
+<div>(3) Manifest File</div>
+<div>AndroidManifest.xml 这个文件是。。。出货单</div>
+<div>(4) Layout XML code</div>
+<div>res/layout/main.xml</div>
+<div>实际项目中为res/layout/activity_hello_word.xml</div>
+<div>(5) Strings</div>
+<div>所有文字</div>
+<div>res/values/strings.xml</div>
+<div>(6) The R File</div>
+<div>连接Java与资源</div>
+<div>gen 下有R.java</div>
+<div>(7) Java Source code</div>
+<div>(8) The Emulator</div>
+<div>Android Virtual Device (AVD)</div>
+<div><img src="Learning%20Android.resources/115BF0BA-C47C-488C-B805-5373AA931DE1.png" height="22" width="46"/>创建一个AVD, 前一个sdk管理</div>
+<div><br/></div>
+<div>存在bug,直接 run有问题，需要先运行vm，然后再手动选择运行</div>
+<div><br/></div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 4 Main Building Blocks</div>
+<div><br/></div>
+<div>1. What are Main Building Blocks</div>
+<div>拆分成理论上的独立单元，又可放在一起成为完整的包</div>
+<div>2. <b>Activities</b></div>
+<div>通常是一个屏幕， 就像网站的Page</div>
+<div>3. <b>Activity Life Cycle</b></div>
+<div>载入一个Activity是相当expensive的</div>
+<div>要开一个Linux process, 分配内存给UI对象，载入所有的Layout</div>
+<div>所以有个Activity Manager来管理activity生命周期</div>
+<div><img src="Learning%20Android.resources/F36EFCAC-DE1F-41BD-A3B4-C7B21C68D313.png" height="220" width="229"/></div>
+<div><img src="Learning%20Android.resources/1212AA30-2A05-4E46-9770-C4193B8ACBD0.png" height="539" width="637"/></div>
+<div><br/></div>
+<div>starting state: 没有进程在，一旦有了就是running, 这一过程最expensive,耗电</div>
+<div>runnig state: 只有一个，给够资源</div>
+<div>paused state : 屏幕显示的，但没有交互</div>
+<div>stopped state : not visible, but still in memory</div>
+<div>destroyed state : no longer in memory,,  这时的操作是没保证的，因为可能已经destroy了，所以推荐在paused状态做</div>
+<div><br/></div>
+<div>4. <b>Intents</b></div>
+<div>Intents are like events or messages. You can use them to start activities, start/stop services, or send broadcasts.</div>
+<div>会触发一个activity</div>
+<div>异步的</div>
+<div>可以是清楚的或不清楚的，explicit or implicit, 清楚的指明接收的component, 不清楚的只指出接收者的类型</div>
+<div><img src="Learning%20Android.resources/686EF3D1-3709-4226-BA60-6223FBC70BE5.png" height="354" width="638"/></div>
+<div><br/></div>
+<div>5. <b>Services</b></div>
+<div>后台运行，与用户无交互，可执行与activity一样的功能，当然除了交互。例如后台音乐。</div>
+<div>通常的，Services与Activities在一个main application thread上运行，而不是另开线程。</div>
+<div><img src="Learning%20Android.resources/3360B15B-3FAA-47B1-9035-A8A346FE832E.png" height="479" width="631"/></div>
+<div><br/></div>
+<div><img src="Learning%20Android.resources/3176F17D-8BBA-4802-B189-D1B55222D7AE.png" height="472" width="636"/></div>
+<div><br/></div>
+<div>6. <b>Content Providers</b></div>
+<div>Content Providers are interfaces for sharing data between applications.</div>
+<div>小数据可以通过itents传，更好的方案是content providers</div>
+<div><img src="Learning%20Android.resources/04945152-4D41-4670-B1E7-B5B0BF177A88.png" height="545" width="275"/></div>
+<div><img src="Learning%20Android.resources/B3FE1CBE-C85B-4D3E-8B4B-FF8A6B4B1E52.png" height="569" width="639"/></div>
+<div><br/></div>
+<div>7. <b>Broadcast Receivers</b></div>
+<div>implementation of publish/subscribe mechanism, or more precisely, an <b>Observer pattern.</b></div>
+<div>Receiver是个静止代码，当它订阅的事件发生时激活一次。如有电话来，有SMS，没电了等，所有订阅的都收到</div>
+<div>Receiver本身无界面，无占内存运行，一旦triggered，可能会开启activitiy, service or something else.</div>
+<div><br/></div>
+<div>8. <b>Application Context</b></div>
+<div>上下文嘛</div>
+<div>第一个component开启时，Context创建，</div>
+<div>application alive，则context存在， 与activities life cycle 无关</div>
+<div>得到context命令：Context.getApplicationContext() 或 Activity.getApplication()</div>
+<div>activities ,  services 是context的子类</div>
+<div><br/></div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 5 Yamba Proejct Overview</div>
+<div><br/></div>
+<div>a twitter-like application</div>
+<div>Yamba = Yet Another Micro Blogging App</div>
+<div><a href="https://github.com/twitter-university/yamba">https://github.com/twitter-university/yamba</a></div>
+<div><a href="https://github.com/twitter-university/LearningAndroidYamba">https://github.com/twitter-university/LearningAndroidYamba</a></div>
+<div><br/></div>
+<div>1. Design of the entire Yamba</div>
+<div><img src="Learning%20Android.resources/DBA01EA4-4634-4159-9B35-6FA524E3144D.png" height="707" width="742"/></div>
+<div><img src="Learning%20Android.resources/55DFE7A0-89CB-4E75-AA3F-B8A1F206377D.png" height="837" width="587"/></div>
+<div><br/></div>
+<div>Part1 : Android User Interface (chapter 6)</div>
+<div>developing first component of the Yamba : the Status Update screen.</div>
+</div>
+<div style="font-family: Courier,">涉及：activity, networking, multithreading, debugging</div>
+<div style="font-family: Courier,">Layouts, views, UI, </div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,">
+<div>Part2 : Preferences, Filesystem, Options, Menu, and Intents (chapter 7)</div>
+<div>涉及: activity, menu system, intents, filesystem</div>
+<div><br/></div>
+<div>Part3 : Android Services (Chapter8)</div>
+<div>backgroup services</div>
+<div><br/></div>
+<div>Part4: Working with Databases (Chapter 9)</div>
+<div>SQLite</div>
+<div><br/></div>
+<div>Part5 : Lists and Adapters (Chapter 10)</div>
+<div><br/></div>
+<div>Part6 : Broadcast Receivers (Chapter11)</div>
+<div><br/></div>
+<div>Part7: Content Providers(Chapter12)</div>
+<div><br/></div>
+<div>Part8 : System Services (Chapter13)</div>
+<div><br/></div>
+<div><br/></div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 6. Android User Interface</div>
+<div style="font-size: 24px;"><br/></div>
+<div>做界面有两办法：declarative, programmatic</div>
+<div>delcarative: 写xml啊，就像写html. 优势是可以用what-you-see-is-what-you-get tools. 缺点是不很好的支持用户输入</div>
+<div>programmatic: 写java代码来做UI.与Java AWT, Java Swing很像，如按钮，创建按钮对象，加入容器，各种属性定义，加点击事件</div>
+<div>一般的做法是：declarative来定义所有static的，如屏幕，widgets等，然后用programmatic来定义用户运作</div>
+<div><br/></div>
+<div>（1） LinearLayout</div>
+<div>simplest and most common，但一般不是最好选择</div>
+<div>重要属性layout_orientation=vertical|horizontal</div>
+<div>多个线性最好不要nested, 而选用Relative Layout, 因为更多的cpu, battery</div>
+<div><br/></div>
+<div>(2) TableLayout</div>
+<div>只由TableRow组成, 有tb tr td</div>
+<div>重要属性：stretch_columns, *表示所有列均可stretch</div>
+<div><br/></div>
+<div>(3) FrameLayout</div>
+<div>叠纸牌一样，最后一张在最上面</div>
+<div><br/></div>
+<div>(4) Relative Layout</div>
+<div>要设置ID, 高效</div>
+<div><br/></div>
+<div>(5) Absolute Layout</div>
+<div>所见即所得最喜欢用，不够flexable, 不同分辨率是问题</div>
+<div><br/></div>
+<div>I. 开工写或画XML UI：</div>
+<div>1) res/layout/main.xml?  </div>
+<div>     实践中，main.xml没有，而是根据我确定的activity的名字生成了activity_status.xml  (StatusActivity)</div>
+<div>     一致性考虑改名为status.xml来匹配StatusActivity? 我相信不用改也行，实践就改下吧</div>
+<div>     改了后，在StatusActivity下的onCreate中也会自动改为setContentView(R.layout.status);</div>
+<div>2) four componet</div>
+<div>     一个最上面，用TextView</div>
+<div>     中间显示140 character, 用EditText</div>
+<div>     下面用Button</div>
+<div>     一个layout来contain所有widgets</div>
+<div>3）important widget properties</div>
+<div>layout_height, layout_width: fill_parent（占父空间）, wrap_content（按需占用）</div>
+<div>layout_weight: 是个[0-1]的数，默认重量为0, 越接近1越最后满足</div>
+<div>layout_gravity: 可以设置为top,center, left等。 width是fill_parent的没啥作用，但若是wrap_content，则有用了。这与gravity不一样</div>
+<div>text: 多语言考虑设置到strings.xml中，用时@string/titleStatus</div>
+<div>id: 能不用就不要用，Java代码调用的要设置，有格式@+id/someName，一般会类型取名，如@+id/buttonUpdate</div>
+<div><br/></div>
+<div>4) String Resource</div>
+<div>取名加了类型如title, hint, button。如titleYamba, buttonUpdate</div>
+<div><br/></div>
+<div>II. 接着写Java UI:</div>
+<div>原则是尽可能的xml后再java</div>
+<div>不论是写Activities, services, broadcast receivers, 还是content providers都是inherit base class , 产生subclass， 如Activity的子类override onCreate()方法</div>
+<div>onCreate: 第一次创建时，从starting 到running， 参数是bundle，是小量的数据，通过intent传递给activity, 参数只支持base type的数据，复杂的要encode</div>
+<div>这样一种创建好父类，等待各种子类去添加空白处，是<b>Template pattern</b></div>
+<div>Override一个方法时，要执行父类的方法，如super.onCreate()</div>
+<div>从xml文件变成java 内存 中的对象，称为inflating from xml , inflate， 代码是：setContentView(R.layout.status); </div>
+<div><br/></div>
+<div>1）添加Jar</div>
+<div>拖到项目中，选择copy；project-&gt;properties-&gt;java build path -&gt; libraries -&gt; add jars</div>
+<div><br/></div>
+<div>2) Updateing the manifest file for internet permission</div>
+<div>AndroidManifest.xml</div>
+<div align="left"><font color="#008080" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">&lt;</span></font> <font color="#3F7F7F" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">uses-permission</span></font> <font color="#7F007F" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">android:name</span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">=</span></font><font color="#2A00FF" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><i>"android.permission.INTERNET"</i></span></font> <font color="#008080" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">/&gt;</span></font></div>
+<div><br/></div>
+<div>3）Logging in Android</div>
+<div align="left"><font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">Log.</span><span style="font-size:10pt; background:#e8f2fe"><i>d</i></span><span style="font-size:10pt; background:#e8f2fe">(</span></font><font color="#0000C0" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><i>TAG</i></span></font><font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">,</span></font> <font color="#2A00FF" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">"onClicked"</span></font><font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">);</span></font></div>
+<div>Tag: app, class , module名，一般情况下， 一个好的习惯是定义TAG作为Java constant for your entire class such as:</div>
+<div align="left"><font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>private</b></span></font> <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>static</b></span></font> <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>final</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">String</span></font> <font color="#0000C0" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><i>TAG</i></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">=</span></font> <font color="#2A00FF" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">"StatusActivity"</span></font><font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">;</span></font></div>
+<div>日志有severity levels:</div>
+<div>.d(): debug level</div>
+<div>.w() : warning</div>
+<div>.i() : info</div>
+<div>.wtf() : errors that should never happen(It stands for What a Terrible Failure, in case you were wondering)</div>
+<div><br/></div>
+<div>4) eclipse 添加library的小tips</div>
+<div>Source -&gt; Organize Imports,  或 CTRL + O， 注意是Apache的Log与 Android的Log</div>
+<div><br/></div>
+<div>5) LogCat</div>
+<div>The Android system log is outputted to LogCat, a standarized system-wide logging mechanism.</div>
+<div>两个方法查看：Eclipse DDMS perspective或Command line</div>
+<div><img src="Learning%20Android.resources/1B2B7B7E-2F36-419A-AA45-5A20FD016D7F.png" height="22" width="142"/></div>
+<div>DDMS stands for Dalvik Debug Monitor Server. 用于连接设备上运行的程序与开发环境如Eclipse</div>
+<div><img src="Learning%20Android.resources/4D9260BE-F866-42DB-9A66-D6F8F67EF574.png" height="627" width="946"/></div>
+<div><br/></div>
+<div>也可以命令行：</div>
+<div>adb logcat</div>
+<div style="font-size: 16px;"><b>adb logcat StatusActivity:* *:S        :这个表示只看Tag为StatusActivity， S=Slience, 一直开着有好处，可以速度发现问题</b></div>
+<div><br/></div>
+<div>这个不对：adb logcat -d -i -w -e -f    intends debug, information, warning, error, fatal</div>
+<div><br/></div>
+<div>adb logcat StatusActivity:* *:S</div>
+<div>V - Verbose (lowest priority)</div>
+<div>D - Debug</div>
+<div>I - Info</div>
+<div>E - Error</div>
+<div>F - Fatal</div>
+<div>S - Silent</div>
+<div><br/></div>
+<div>出现致命错误：02-20 04:04:12.565: E/AndroidRuntime(1141): java.lang.NoClassDefFoundError: winterwell.jtwitter.Twitter ，，就是jar中的类不认识 <br/></div>
+<div><img src="Learning%20Android.resources/7D3DE29E-68DB-4ADB-963F-600EB9C07FEA.png" height="543" width="751"/></div>
+<div>上图解决该问题</div>
+<div>stackoverflow reference: <a href="http://stackoverflow.com/questions/8678630/noclassdeffounderror-for-code-in-an-java-library-on-android">http://stackoverflow.com/questions/8678630/noclassdeffounderror-for-code-in-an-java-library-on-android</a></div>
+<div><br/></div>
+<div><br/></div>
+<div>02-20 04:19:01.165: E/AndroidRuntime(1296): android.os.NetworkOnMainThreadException  新错误出现，这个错误正是下一个话题<br/></div>
+<div>6）Threading in Android</div>
+<div>定义Thread: A thread is a sequence of instructions executed in order.</div>
+<div>Single Thread: 所有命令连续执行，排队。blocking. 例如UI thread</div>
+<div>现在来解释上面的错误，NetworkOnMainThreadException. MainThread就表示是Single Thread, 而Network不稳定，可能1秒，也可能一天，要MainThread等一天吗？</div>
+<div>（实际上，Android默认5秒没反应kill activity）</div>
+<div><br/></div>
+<div>7) Multithreaded execution</div>
+<div>目的：main thread running foreground and the additional threads as running in the background.</div>
+<div>实现的方法: Java Thread class</div>
+<div>     用标准Java 的thread有问题，因为main thread不会让其他thread来更新main UI thread上的组件</div>
+<div>     所以Android有改进， AsyncTask</div>
+<div><br/></div>
+<div>8)AsyncTask</div>
+<div>AsyncTask is an Android mechanism created to help handle long operations that need to report to UI thread.</div>
+<div>具体实现，创建AsyncTask的子类，实现doInBackground(), onProgressUpdate(), onPostExecute()等方法。</div>
+<div align="left"><font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>class</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">PostToTwitter</span></font> <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>extends</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">AsyncTask&lt;String, Integer, String&gt;{</span></font></div>
+<div>doInBackground(): <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>protected</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">String doInBackground(String... statuses) {</span></font></div>
+<div><font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">     String... indicate that this is an anrray of Strings </span></font>注意到String对应类的范化的String(1)</div>
+<div>doProgressUpdate(): is called whenever there's progress in the task execution. The progress reported from the doInBackground(). </div>
+<div>          <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>protected</b></span></font> <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>void</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">onProgressUpdate(Integer...</span> <span style="font-size:10pt; background:#e8f2fe"><u>values</u></span><span style="font-size:10pt; background:#e8f2fe">) {  </span></font>注意到Integer对应类的范化的Integer(2)</div>
+<div>onPostExecute(): is called when our task completes.</div>
+<div>          <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>protected</b></span></font> <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe"><b>void</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt; background:#e8f2fe">onPostExecute(String result) {</span></font></div>
+<div>          这里的result就是doInBackground的return, 这里是String, 注意到String对应类的范化的String(3)</div>
+<div><br/></div>
+<div>一个AsyncTask的使用，实例化后直接执行execute(), 给的参数会给到doInBackground(), String会自动转为String...</div>
+<div align="left"><font face="Courier New" size="2"><span style="font-size:10pt">      String status =</span></font> <font color="#0000C0" face="Courier New" size="2"><span style="font-size:10pt">editText</span></font><font face="Courier New" size="2"><span style="font-size:10pt">.getText().toString();</span></font></div>
+<div align="left"><font face="Courier New" size="2"><span style="font-size:10pt">     </span></font>  <font color="#7F0055" face="Courier New" size="2"><span style="font-size:10pt"><b>new</b></span></font> <font face="Courier New" size="2"><span style="font-size:10pt">PostToTwitter().execute(status);</span></font></div>
+<div>9) Toast</div>
+<div>Toast is a feature of the Android UI which is to display a quick message on the screen.</div>
+<div>Toast uses the maktext() static method to make the actual mesage.</div>
+<div>最扣要show()一下。</div>
+<div><br/></div>
+<div>10) 错误02-21 04:23:13.067: E/AndroidRuntime(1088): Caused by: libcore.io.ErrnoException: getaddrinfo failed: EACCES (Permission denied)</div>
+<div>02-24 00:52:50.889: E/AndroidRuntime(1065): Caused by: java.lang.SecurityException: Permission denied (missing INTERNET permission?)<br/></div>
+<div>Since permissions are shown to the user during installation.</div>
+<div>一直找不到原因，aapb.exe经常性爆，决断 应该是xml文件有问题，重新一点点写，写一点跑一下运行，最终重新写的没有问题</div>
+<div><br/></div>
+<div>11) DDMS: Dalvik Debug Monitor Server, DDMS is the connection between your application running on the device and your development environment, such as Eclipse</div>
+<div>DDMS perspective才可以logcat</div>
+<div><br/></div>
+<div>12）Adding Color and Graphics</div>
+<div><img src="Learning%20Android.resources/38DD0BB1-0DE2-4483-8718-0849153AB6C5.png" height="464" width="478"/></div>
+<div>12-1) 加图：</div>
+<div>难看，加图片背景：归为drawable</div>
+<div>/res/drawable-hdpi  : for devices with high-density screens(density 密度)</div>
+<div>/res/drawable-mdpi : medium-density</div>
+<div>/res/drawable-ldpi: low-density</div>
+<div>图片优先png，而非gif 因为lossless and doesn't require any patent licenses.</div>
+<div>R.drawable.background</div>
+<div><br/></div>
+<div>在画图界面选择时，可以打开outline更方便：Window-&gt;Show View-&gt;Outline</div>
+<div><br/></div>
+<div>12-2）加色彩</div>
+<div>ARGB : A表示transparency，透明度, a is optional, 0~255, 十六进制0~FF，实际应用为AARRGGBB, 每位值为0~F，可简写为ARGB, 如#3A9F = #33AA99FF, #表示16进制啊，hexadecimal。</div>
+<div>选择将editText背景色改为#cfff : 是一种透明的白</div>
+<div>标题字的颜色改为白色, textColor=#fff, 也可以@android:color/white</div>
+<div><br/></div>
+<div><img src="Learning%20Android.resources/0BC8A942-EF8B-4006-9251-06B92A187413.png" height="464" width="478"/></div>
+<div><br/></div>
+<div>13) 其他资源</div>
+<div>13-1) 横向资源：/red/layou-land/status.xml  rotate portrait  landscape</div>
+<div>多语言： res/values-fr-rCA/strings.xml   a French-speaking part of Canada。 -fr 指法语  -rCa region is Canada。 在加拿大设置了法语就会用这个，找不到用默认</div>
+<div>记不住名字？可以用File-&gt;new -&gt;Android XML File</div>
+<div><br/></div>
+<div>14) Optimizing the user interface</div>
+<div>The user interface is one of the most expensive parts of a typical Android application. 所以能少就少，尤其注意nested layout，一个方案是用relative layouts代替nested。也就是 flat instead of deep。</div>
+<div><br/></div>
+<div>15） Hierarchy Viewer</div>
+<div>SDK/tools: attach to any Android device, emulator, or physical phone  and then introspect(反省) the structure of the current view. 只对当前view反射下。</div>
+<div>hierarchychyviewer.bat</div>
+<div><img src="Learning%20Android.resources/90C548BE-DFAB-44D9-BC3C-8F1CB9FB7D8B.png" height="800" width="1280"/></div>
+<div><br/></div>
+<div><br/></div>
+<div>16) 引出的问题，去掉action bar</div>
+<div>activity 里加属性android:theme="@android:style/Theme.Holo.NoActionBar"  类似于这种无bar 的theme ， 这个是level11的</div>
+<div>android:theme="@android:style/Theme.NoTitleBar"</div>
+<div><img src="Learning%20Android.resources/0F876EB3-3B13-4A52-8337-C629DDA1D603.png" height="464" width="478"/></div>
+<div><img src="Learning%20Android.resources/9B9EF33A-B76D-4E25-9947-DAB0164DAFF1.png" height="676" width="883"/></div>
+<div><br/></div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 7. Preferences, the Filesystem, the Options Menu, and Intents</div>
+<div style="font-size: 24px;"><br/></div>
+<div style="font-size: 16px;">7.1 Preferences</div>
+<div>对于Yamba来说有username, password, API root</div>
+<div>(1) Create a Preference resource file called prefs.xml</div>
+<div>(2) Implement the PrefsActivity.java that inflates that resource file</div>
+<div>(3) Register this new activity with the AndroidManifest.xml file</div>
+<div>(4) Provider a way to start that activity from the rest of the application</div>
+<div><br/></div>
+<div>PrefsActivity : preferece-aware activity， 现在都推荐用PreferenceFragment</div>
+<div>*一些奇怪的错误，比如认为类does not extend android.app.Activity，这时就可以用Project-&gt;Clean, 或删除extends Activity 保存再回滚保存， 或重新写.PrefsActivity</div>
+<div>Preferece中的配置，重启机子后都会仍存在。</div>
+<div><br/></div>
+<div>SharedPreference 可以由activity,service, broadcast receiver, content provider等来读Preference</div>
+<div><br/></div>
+<div><span style="font-size: 16px;">7.2 Options Menu</span></div>
+<div>我们知道有个新的activity，怎么调呢？用Option Menu: 用户按Menu时，在屏幕底部出现</div>
+<div>(1) Create the menu.xml resource where we specify what the menu consist of</div>
+<div>(2) Add onCreateOptionsMenu() to the activity that should have this menu</div>
+<div>(3) Provider handling of menu events in onOptionsItemSelected()</div>
+<div><br/></div>
+<div>涉及系统资源问题，xml中用@android:drawable/ic_menu_preferences, java中用android.R instead of R</div>
+<div>系统资源在：android-sdk/platforms/android-9/data/res  9可以为任何 version</div>
+<div><br/></div>
+<div>onCreateOptionsMenu() : 点了menu时触发，之后一直没了，直到destroy</div>
+<div>onOptionsItemSelected() : 点了</div>
+<div><br/></div>
+<div><span style="font-size: 16px;">7.3 The Filesystem</span></div>
+<div>打开两途径：</div>
+<div>（1） via Eclipse</div>
+<div>File Explorer: Window-&gt; Show View-&gt; other -&gt; Android -&gt; File Explorer</div>
+<div>也可以DDMS</div>
+<div>（2）via command line</div>
+<div><b>adb shell</b></div>
+<div><br/></div>
+<div>Filessytem Partitions - Three main parts:</div>
+<div>(1) /system/ : 有applications, system libraries, android framework, linux commnad-line tools, and so on. 对应的system.img</div>
+<div>(2) /sdcard/ : 具体路径可能是/mnt/sdcard, 对应sdcard.img</div>
+<div>(3) /data/ : user data partition  , 这个最重要/data/data/</div>
+<div/>
+<div><img src="Learning%20Android.resources/20972A36-7601-4DCB-80C5-3345456272F7.png" height="438" width="669"/></div>
+<div><img src="Learning%20Android.resources/275F5B64-BC87-412F-9266-DB7D0BA708FE.png" height="438" width="669"/></div>
+<div><br/></div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 8. Services</div>
+<div style="font-size: 24px;">
+<div><span style="font-size: medium;">分为bound和unbound</span></div>
+<div><span style="font-size: medium;">bound service为更多的application提供服务，via an interafce called AIDL(Android Interafce Definition Language)，只有两种状态Started / Stopped(Destroyed)</span></div>
+<div><span style="font-size: medium;">unbound service: yamba选用。</span></div>
+<div><span style="font-size: medium;"><br/></span></div>
+</div>
+<div style="font-size: 16px;">8.1 <b>Application Object</b>(项目公共类)</div>
+<div>android.app.Application class, 本例中为YambaApplication, 这是application级的公共对象，这里把getTwitter()方法加到这里，使得整个application随时可以获得该对象。</div>
+<div>(1) Create the Java class representing YambaApplication</div>
+<div>(2) Register the new class with the AndroidManifest.xml file(告诉系统用YambaApplication而不是默认的application)</div>
+<div>      修改manifest.xml下的application节点的android:name属性。</div>
+<div><br/></div>
+<div>知识点：同步方法,Synchronized method</div>
+<div>the synchronized means that only one thread can be inside of such a method at one time. </div>
+<div><br/></div>
+<div><span style="font-size: 16px;">8.1 UpdateService</span></div>
+<div>不断的从网上的把内容拉下来保存到本地。步骤如下：</div>
+<div>(1) create java class representing your service</div>
+<div>(2) register the service in Android manifest file</div>
+<div>(3) start the service</div>
+<div><span style="font-size: 12px; font-family: Helvetica;"><img src="Learning%20Android.resources/A8F3D4F6-0E50-4986-B98F-598CF0CB7C3C.png" height="432" width="592"/></span><br/></div>
+<div><span style="font-size: 12px; font-family: Helvetica;"><br/></span></div>
+<div><font face="Helvetica" size="2">知识点： service 中，onbind 是用于bound service的。</font></div>
+<div><font face="Helvetica" size="2">     service的on create   只会在运行一次，在其生命周期中。</font></div>
+<div><font face="Helvetica" size="2">     service的start service方法，在接收到start service  intent时就会运行一次。会调用onStartCommand()<span><img src="Learning%20Android.resources/Screen%20Shot%202014-03-07%20at%2011.32.12.png" height="926" width="636"/><span><img src="Learning%20Android.resources/Screen%20Shot%202014-03-07%20at%2011.32.49.png" height="372" width="598"/></span></span></font></div>
+<div><span style="font-size: 12px; font-family: Helvetica;"><br/></span></div>
+<div><br/></div>
+<div>一个准则：任何事件与ＵＩ分离，在不同的Thread上。</div>
+<div><br/></div>
+<div>注：为什么要在service中新建一个thread?</div>
+<div>If we run our update operation on the default thread, any delay caused by the network update will cause our user interface to block. this in turn will make our application appear sluggish to the user and may even lead to the user and may even lead to Android system offering to kill our application by bringing up the “Force Close or Wait” dialog window.</div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 9. The Database</div>
+<div>
+<div><br/></div>
+<div>数据存在在本地数据库，定时从云中更新，从而提高用户体验。</div>
+<div style="font-size: 24px;"><span style="font-size: medium;"><br/></span></div>
+</div>
+<div style="font-size: 16px;">9.1 SQLite</div>
+<div>优点：</div>
+<div>(1) zero configuration </div>
+</div>
+<div>(2) it doesn’t have a server. no SQLite database process running.</div>
+<div>(3) it’s a single file database</div>
+<div>(4) it’s open source</div>
+<div><br/></div>
+<div>知识点：android sets aside a special, secure sandbox for each application.</div>
+<div>SQLite is by no means your only option , SQLite绝不是唯一的选择。可选JAVADB, MongoDB等。</div>
+<div>SQLite is note an alternative to a full SQL server; instead, it is an alternative to using a local file with an arbitrary format.</div>
+<div><br/></div>
+<div>
+<div style="font-size: 16px;"><img src="Learning%20Android.resources/Screen%20Shot%202014-03-07%20at%2014.10.32.png" height="926" width="1554"/><br/></div>
+<div style="font-size: 16px;"><br/>
+9.2 DbHelper</div>
+<div>Android中提供了类SQLiteOpenHelper用于extends。返回得到SQLiteDatabase实例。</div>
+<div><br/></div>
+</div>
+<div>
+<div>9.2.1 Schema</div>
+<div>A schema is just a description of what’s in a database.</div>
+<div>对于Yamba可以建表如下：</div>
+<div>ID: Identify</div>
+<div>created_at : 啥时创建的。</div>
+<div>txt : 内容</div>
+<div>user： 谁创建的。</div>
+<div><br/></div>
+</div>
+<div>schema的创建会是在DbHelper的onCreate()方法中。CREATE TABLE</div>
+<div>需要有Version从而更新Schema, ALTER TABLE 在DbHelper的onUpgrad()中。</div>
+<div><br/></div>
+<div>9.2.2 Four Major Operations</div>
+<div>CRUD: Create, Read(Query), Update, Delete.</div>
+<div>DbHelper offers:</div>
+<div>insert(), query(), update(), delete().</div>
+<div><br/></div>
+<div>其他的直接用SQL:  execSQL()</div>
+<div><br/></div>
+<div>9.2.3 Cursors</div>
+<div>A query returns a set of rows along with a pointer called cursor.</div>
+<div><br/></div>
+<div>知识点：SQL操作不可控，比如磁盘已满，所以最好所有ＳＱＬ操作均以try catch包起来，以SQLExceptions处理。</div>
+<div>     Eclipse中有方便的操作，选中代码，Source -&gt; Surround with -&gt; Try/Catch</div>
+<div><br/></div>
+<div>知识点：显然的在java 类中的一个不加任何限定的参数不是private的。</div>
+<div><br/></div>
+<div><br/></div>
+<div>9.2.4 sqlite3</div>
+<div>adb shell</div>
+<div>cd /data/data/com.mazei.yamba/databases/</div>
+<div>sqlite3 timeline.db</div>
+<div>.help  //查看帮助</div>
+<div>.schema</div>
+<div><br/></div>
+<div>9.2.5 创建StatusData而且使DBHelper成为其内部私有类的原因？</div>
+<div>This is because it now makes sense to make DbHelper an inner class because DbHelper now exists only in the context of StatusData and is private to it.  In other words, outside of StatusData, no other part of the system is concerned with the fact that we are using a database to store our data. that also makes our system flexible.</div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 10. Lists and Adapters</div>
+<div>
+<div><br/></div>
+<div>有三个Activities and 一个Service</div>
+</div>
+<div>Timeline Activity: Pulls the data form the database and displays it on the screen.</div>
+<div>     (1) uses a TextView to display all the output from the database.  use ScrollView to wrap our text.</div>
+<div>     (2) the much more scalable and efficient  ListView and Adapter approach.</div>
+<div>     (3) create custom Adapter</div>
+<div><span style="font-size: 16px;"><br/></span></div>
+<div><span style="font-size: 16px;">10.1 Basic TimelineActivity  &amp;&amp; ScrollView</span></div>
+<div>Layout: 用textview， 对于小数据量的没有问题。</div>
+</div>
+<div>ScrollView: Scrolling,只有一个Direct Child. 一般不需要id，因为不需要操作，往往横竖都是不是100%.</div>
+<div><br/></div>
+<div>
+<div><span style="font-size: 16px;">10.2 Adapter</span></div>
+<div>要解决的问题是: 若数据很大，不能一次全load出来。数据一般是cursor或array</div>
+<div>adapter come as subclass of CursorAdapter or ArrayAdapter. </div>
+</div>
+<div><br/></div>
+<div>Timeline Adapter: Creating a new TimelineAdapter that is a subclass of SimpleCursorAdapter and overriding its bindView() method.</div>
+<div><br/></div>
+<div>reference: http://developer.android.com/reference/android/widget/SimpleCursorAdapter.html</div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<div><span style="font-size: 16px;">10.3 ViewBinder: A better alternative to Timeline Adapter</span></div>
+<div>Attach the business logic directly to the existing SimpleCursorAdapter. using its setViewBinder() method.</div>
+<div><br/></div>
+<div>
+<div><span style="font-size: 16px;">10.4 action.MAIN &amp;&amp; category.LAUNCHER</span></div>
+<div>There is a special action named android.intent.action.MAIN that simply indicates this is the main component that should be started when the user wants to start your application.</div>
+<div>Additionally, the &lt;category&gt; element tells the system that this application should be added to the main Launcher application so that the user can see its app icon along with all the other icons, click on it, and start it. This category is defined as android.intent.category.LAUNCHER.<span><img src="Learning%20Android.resources/Screen%20Shot%202014-03-10%20at%2016.39.11.png" height="927" width="637"/></span></div>
+<div><span style="font-size: 12px; font-family: Helvetica;"><img src="Learning%20Android.resources/2CA1E96E-EBE6-4DFE-882A-94C2C48D339F.png" height="1116" width="783"/></span><br/></div>
+<div> </div>
+</div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 11. Broadcast Receivers</div>
+<div>
+<div><br/></div>
+<div>case1: create a broadcast receiver that will start up your update service at boot time. (BootReceiver)</div>
+<div>case2: create a receiver that will update the timeline when it changes while the user is viewing it.</div>
+<div>case3: app security by defining permissions</div>
+<div><br/></div>
+<div>Broadcast receivers are Android’s implementation of the Publish/Subscribe messaging pattern, or more precisely, the Observer pattern.</div>
+<div><br/></div>
+<div>intent broadcast</div>
+<div>有三个Activities and 一个Service</div>
+</div>
+<div>Timeline Activity: Pulls the data form the database and displays it on the screen.</div>
+<div>     (1) uses a TextView to display all the output from the database.  use ScrollView to wrap our text.</div>
+<div>     (2) the much more scalable and efficient  ListView and Adapter approach.</div>
+<div>     (3) create custom Adapter</div>
+<div><br/></div>
+<div>查看运行的服务：Settings -&gt; Applications -&gt; Running Services.</div>
+<div><br/></div>
+<div>对于case1:BootReceiver, 只需要在manifest.xml中配置。</div>
+<div>对于case2:TimelineReceiver, 需要注册到activity的onResume()中，因为activity要到running状态，必须经过onResume方法。</div>
+<div>     类似的，activity要到stopped 状态，必然要经过onPause()方法。</div>
+<div>     对于new IntentFilter(“com.mazei.yamba.NEW_STATUS”)表示一个IntentFilter对象过滤com.mazei.yamba.NEW_STATUS intent action. (listening)</div>
+<div>     </div>
+<div>     broadcasting is at Updater class which is an inner class of UpdaterService</div>
+<div><br/></div>
+<div>     不通过过滤注册成的receiver可能会接收到各种intent，并触发。</div>
+<div><br/></div>
+<div>ERROR: trying to requery an already closed cursor</div>
+<div>问题出在一个depresed方法上，</div>
+<div><a href="http://stackoverflow.com/questions/5915597/android-error-java-lang-illegalstateexception-trying-to-requery-an-already-clo">http://stackoverflow.com/questions/5915597/android-error-java-lang-illegalstateexception-trying-to-requery-an-already-clo</a><br/></div>
+<div><br/></div>
+<div>The Network Receiver: We’re limited by the battery life and network connectivity.</div>
+<div><br/></div>
+<div>权限：</div>
+<div>(1) sendBroadcast( Intent, receive_permission), 这个permission 就在manifest文件里配置，并use-permission，这样receiver就不受影响，因为有了这个权限，可以收到该broadcast</div>
+<div>(2) registerReceiver( receiver, filter, send_permission, null).  这个是验证有没发的权限。</div>
+<div><br/></div>
+<div><br/></div>
+<div><span style="font-size: 12px; font-family: Helvetica;"><img src="Learning%20Android.resources/81B26A7C-CAAF-4AF6-AD81-81DAAE62FA0D.png" height="1036" width="783"/></span><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 12. Content Providers</div>
+<div>
+<div><br/></div>
+<div>Content Providers are Android building blocks that can expose data across the boundaries between application sandboxes.</div>
+</div>
+</div>
+</div>
+</div>
+<div>Each application run in its own process with its own permissions.</div>
+<div>How to share data across applications?</div>
+<div><br/></div>
+<div>(1) Create a new Java class that subclasses the system’s ContentProvider class</div>
+<div>(2) Declare your CONTENT_URI  (Uniform Resource Identifier)</div>
+<div>     e.g. content://com.mazei.yamba.statusprovider/status/47</div>
+<div>     PartA: content://  都要加的</div>
+<div>     PartB: com. mazei . yamba.provider,  称为authority. 一般是类名。要与manifest.xml中匹配。</div>
+<div>     PartC: status:  指明提供的数据类型。</div>
+<div>     PartD: 47:  是个可选的ID。要整个数据此处不填。</div>
+<div><br/></div>
+<div>(3) Implement all the unimplemented methods, such as insert(), update(), delete(), query(), getID(), and getType().</div>
+<div>(4) Declare your content provider in the AndroidManifest.xml file</div>
+<div><br/></div>
+<div>创建Widget: YambaWidget extends AppWidgetProvider</div>
+<div>     AppWidgetProvider  这个是BroadcastReceiver的子类，这显然好理解。</div>
+<div>     onUpdate常用，一般设置为何30分钟更新一次。</div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 13. System Services</div>
+<div>
+<div>like the Location service, Sensor service, WiFi service, Alarm service, Telephony service, Bluetooth service, and so on.</div>
+<div><br/></div>
+<div>1. compass demo</div>
+<div>注意到：在resume中注册，而在pause中unregister是为了当用户在看时才用。比如GPS服务，这样可以更省电。</div>
+<div>因为进出必然通过resume与pause</div>
+<div> 也有人选择{onStart, onStop} 甚至{onCreate, onDestroy}, 对于activity来说。</div>
+<div><br/></div>
+</div>
+</div>
+<div>大部分跳过。</div>
+<div><br/></div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 14. The Android Interface Definition Language</div>
+<div><br/></div>
+</div>
+<div>Application之间交互，asynchronous method is  by Intent, synchronous method is Interprocess Communication(IPC)</div>
+<div>Android有其自己的IPC protocol. 发送端整装称为：marshaling, 接收端解压称为：unmarshaling</div>
+<div>为了实现这个Android 提供了Android Interface Definition Language, AIDL.</div>
+<div>用AIDL 实现IPC, 类似于Java的语法。</div>
+<div><br/></div>
+<div>服务端有.aidl文件。using AIDL.</div>
+<div><br/></div>
+<div>Android provides an interprocess communication mechanism based on its binder, a high-performance, shared-memory system.</div>
+<div>大部分跳过。</div>
+<div><br/></div>
+<div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 15. The Native Development Kit (NDK)</div>
+<div><br/></div>
+</div>
+<div>NDK is an add-on to SDK that helps you integrate native code-code that uses platform - specific features, generally exposed through C or C++ language APIs -  with your Android Application. </div>
+</div>
+<div><br/></div>
+<div><br/></div>
+<div>补充：</div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter 8. Fragment </div>
+</div>
+<div><br/></div>
+<div title="Page 147">
+<div>
+<div>
+<p><span style="font-size: 11.000000pt; font-family: 'MinionPro'">In Android 3.0 (API Level 11), Android introduced the Fragments API. This was in response to a growing need to accommodate multiple screen sizes (such as tablets versus phones) and orientations (landscape versus portrait).  </span></p>
+</div>
+</div>
+</div>
+<div title="Page 147">
+<div>
+<div>
+<p><span style="font-size: 11.000000pt; font-family: 'MinionPro'">To do this, it was necessary to modularize the views (the UI) such that it would be easy to separate the Activity con‐ tainer from the UI. </span></p>
+</div>
+</div>
+</div>
+<div>1. The implementation:</div>
+<div><br/></div>
+<div>(1) new_activity_status.xml:</div>
+<div><span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">&lt;?</span><span style="font-size: 11px; font-family: Monaco; color: rgb(78, 145, 146);">xml</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">version</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"1.0"</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">encoding</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"utf-8"</span><span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">?&gt;</span><span style="font-size: 11px; font-family: Monaco;"><br/></span><span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">&lt;</span><span style="font-size: 11px; font-family: Monaco; color: rgb(78, 145, 146);">FrameLayout</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">xmlns:android</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"<a href="http://schemas.android.com/apk/res/android">http://schemas.android.com/apk/res/android</a>"</span> <span style="font-size: 11px; font-family: Monaco;"><br/>
+   </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">android:layout_width</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"match_parent"</span> <span style="font-size: 11px; font-family: Monaco;"><br/>
+   </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">android:layout_height</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"match_parent"</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">]]
+<![CDATA[>]]>
+</span><span style="font-size: 11px; font-family: Monaco;"><br/>
+   <br/>
+   </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">&lt;</span><span style="font-size: 11px; font-family: Monaco; color: rgb(78, 145, 146);">fragment</span><span style="font-size: 11px; font-family: Monaco;"><br/>
+       </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">android:id</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"@+id/fragment_status"</span> <span style="font-size: 11px; font-family: Monaco;"><br/>
+       </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">android:name</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"com.mazei.yamba.StatusFragment"</span> <span style="font-size: 11px; font-family: Monaco;"><br/>
+       </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">android:layout_width</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"match_parent"</span> <span style="font-size: 11px; font-family: Monaco;"><br/>
+       </span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 33, 146);">android:layout_height</span><span style="font-size: 11px; font-family: Monaco;">=</span><span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"match_parent"</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">/&gt;</span><span style="font-size: 11px; font-family: Monaco;"><br/>
+   <br/></span> <span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">&lt;/</span><span style="font-size: 11px; font-family: Monaco; color: rgb(78, 145, 146);">FrameLayout</span><span style="font-size: 11px; font-family: Monaco; color: rgb(0, 145, 147);">]]
+<![CDATA[>]]>
+</span><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>(2) com.mazei.yamba.StatusFragement:</div>
+<div><span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">public</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">class</span> <span style="font-size: 11px; font-family: Monaco;">StatusFragment</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">extends</span> <span style="font-size: 11px; font-family: Monaco;">Fragment</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">implements</span> <span style="font-size: 11px; font-family: Monaco;">OnClickListener {</span><br/></div>
+<div><span style="font-size: 11px; font-family: Monaco; color: rgb(119, 119, 119);">     @Override</span><span style="font-size: 11px; font-family: Monaco;"><br/></span><span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">     public</span> <span style="font-size: 11px; font-family: Monaco;">View onCreateView(LayoutInflater inflater, ViewGroup container,<br/>
+          Bundle savedInstanceState) {<br/>
+<br/>
+          Log.d(</span><span style="font-size: 11px; font-family: Monaco; color: rgb(3, 38, 204);">TAG</span><span style="font-size: 11px; font-family: Monaco;">,</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"onCreateView"</span><span style="font-size: 11px; font-family: Monaco;">);<br/>
+          View view = inflater.inflate(R.layout.</span><span style="font-size: 11px; font-family: Monaco; color: rgb(3, 38, 204);">fragment_status</span><span style="font-size: 11px; font-family: Monaco;">, container,</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">false</span><span style="font-size: 11px; font-family: Monaco;">);</span><span style="font-size: 11px; font-family: Monaco;"><br/></span></div>
+<div><span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">          return</span> <span style="font-size: 11px; font-family: Monaco;">view;<br/>
+     }</span><span style="font-size: 11px; font-family: Monaco;"><br/></span></div>
+<div><span style="font-size: 11px; font-family: Monaco;">}</span></div>
+<div><br/></div>
+<div>(3) R.layout.fragment_status.xml : 原来的relative_layout</div>
+<div> </div>
+<div>样例：</div>
+<div><img src="Learning%20Android.resources/A8EC5551-9DC5-4EA8-9775-B8C31552182F.jpg" height="816" width="524"/><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>2. Fragment life cycle</div>
+<div><br/></div>
+<div><img src="Learning%20Android.resources/48DF66CB-6C2E-4085-A976-3E36668AF359.jpg" height="898" width="476"/><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>important methods:</div>
+<div title="Page 154">
+<div>
+<div>
+<pre>
+<span style="font-size: 10.000000pt; font-family: 'UbuntuMono'">onCreateView()</span>
+</pre>
+<p><span style="font-size: 10.000000pt; font-family: 'UbuntuMono'">onResume()</span></p>
+<p><span style="font-size: 10.000000pt; font-family: 'UbuntuMono'">onPause()</span></p>
+<pre>
+<span style="font-size: 10.000000pt; font-family: 'UbuntuMono'">onDestroyView()</span>
+</pre></div>
+</div>
+</div>
+<div><br/></div>
+<div>3. Dynamically adding fragment</div>
+<div title="Page 155">
+<div>
+<div>
+<p><span style="font-size: 11.000000pt; font-family: 'MinionPro'">initialization of the fragment happens in an XML file, this is called</span> <span style="font-size: 11.000000pt; font-family: 'MinionPro'; font-style: italic">static initialization</span><span style="font-size: 11.000000pt; font-family: 'MinionPro'">.  </span></p>
+</div>
+</div>
+</div>
+<div title="Page 155">
+<div>
+<div>
+<p><span style="font-size: 11.000000pt; font-family: 'MinionPro'">XML ultimately always becomes Java, so everything that can be done statically can also be done dynamically. </span></p>
+</div>
+</div>
+</div>
+<div><span style="font-size: 11px; font-family: Monaco; color: rgb(119, 119, 119);">        @Override</span><span style="font-size: 11px; font-family: Monaco;"><br/></span><span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">protected</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">void</span> <span style="font-size: 11px; font-family: Monaco;">onCreate(Bundle savedInstanceState) {<br/></span><span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">super</span><span style="font-size: 11px; font-family: Monaco;">.onCreate(savedInstanceState);<br/>
+<br/></span><span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">if</span> <span style="font-size: 11px; font-family: Monaco;">(savedInstanceState ==</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">null</span><span style="font-size: 11px; font-family: Monaco;">) {<br/>
+Log.d(</span><span style="font-size: 11px; font-family: Monaco; color: rgb(3, 38, 204);">TAG</span><span style="font-size: 11px; font-family: Monaco;">,</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"The saved instance state is null, this is the first time this activity is created"</span><span style="font-size: 11px; font-family: Monaco;">);<br/>
+StatusFragment fragment =</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">new</span> <span style="font-size: 11px; font-family: Monaco;">StatusFragment();<br/>
+getFragmentManager().beginTransaction()<br/>
+.add(android.<a href="http://R.id">R.id</a>.</span><span style="font-size: 11px; font-family: Monaco; color: rgb(3, 38, 204);">content</span><span style="font-size: 11px; font-family: Monaco;">, fragment, fragment.getClass().getSimpleName())<br/>
+.commit();<br/>
+}</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(147, 26, 104);">else</span> <span style="font-size: 11px; font-family: Monaco;">{<br/>
+Log.d(</span><span style="font-size: 11px; font-family: Monaco; color: rgb(3, 38, 204);">TAG</span><span style="font-size: 11px; font-family: Monaco;">,</span> <span style="font-size: 11px; font-family: Monaco; color: rgb(57, 51, 255);">"The saved instatce state is not null"</span><span style="font-size: 11px; font-family: Monaco;">);<br/>
+}<br/>
+}</span><br/></div>
+<div><br/></div>
+<div>显然，直接切出返回，不会触发oncreate()。 <span style="font-family: MinionPro; font-size: 11pt;">we could also have gotten to this point in the code when the activity exists and the screen has been rotated by the user.</span></div>
+<div title="Page 156">
+<div>
+<div>
+<p><span style="font-size: 11.000000pt; font-family: 'MinionPro'"> </span><span style="font-size: 11pt; font-family: MinionPro;">attach this new fragment to the root of this activity identified by the system ID</span> <span style="font-size: 10pt; font-family: UbuntuMono;">android.R.id.content</span><span style="font-size: 11.000000pt; font-family: 'MinionPro'"><br/></span></p>
+<div title="Page 156">
+<div>
+<div>
+<p><span style="font-size: 10.000000pt; font-family: 'UbuntuMono'"> <br/></span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div>====================================================================</div>
+<div style="font-size: 24px;">Chapter Additional  - HandlerThread  </div>
+</div>
+<div><br/></div>
+<div><br/></div>
+<div>Reference: <a href="http://developer.android.com/reference/android/os/HandlerThread.html">http://developer.android.com/reference/android/os/HandlerThread.html</a></div>
+<div><span style="color: rgb(34, 34, 34); font-family: Roboto, sans-serif; font-size: 14px; line-height: 19px; background-color: rgb(249, 249, 249);">Handy class for starting a new thread that has a looper. The looper can then be used to create handler classes. Note that start() must still be called.</span><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<table style="font-size: 12px; border-collapse: collapse; border-spacing: 0px; border: 0px; padding: 0px; line-height: 14px; color: rgb(34, 34, 34); font-family: Roboto, sans-serif;">
+<tbody>
+<tr>
+<td colspan="3" style="padding: 0px; vertical-align: top; border: none;"><a href="http://developer.android.com/reference/java/lang/Object.html" style="color: rgb(37, 138, 175); text-decoration: none;">java.lang.Object</a></td>
+</tr>
+<tr>
+<td style="padding: 0px; vertical-align: top; border: none; font-weight: bold;">   ↳</td>
+<td colspan="2" style="padding: 0px; vertical-align: top; border: none;"><a href="http://developer.android.com/reference/java/lang/Thread.html" style="color: rgb(37, 138, 175); text-decoration: none;">java.lang.Thread</a></td>
+</tr>
+<tr>
+<td style="padding: 0px; vertical-align: top; border: none; font-weight: bold;"> </td>
+<td style="padding: 0px; vertical-align: top; border: none; font-weight: bold;">   ↳</td>
+<td colspan="1" style="padding: 0px; vertical-align: top; border: none;">android.os.HandlerThread</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><br/></div>
+<div>
+<table style="font-size: 14px; border-collapse: collapse; border-spacing: 0px; border: 0px; background-color: rgb(247, 247, 247); color: rgb(34, 34, 34); font-family: Roboto, sans-serif; line-height: 19px;">
+<tbody>
+<tr>
+<th style="padding: 4px 12px; vertical-align: top; background-color: rgb(153, 153, 153); color: rgb(255, 255, 255); border: 1px solid rgb(221, 221, 221); font-weight: normal;">
+<div style="clear: left;">Inherited Constants</div>
+</th>
+</tr>
+<tr>
+<td colspan="12" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html#" style="color: rgb(37, 138, 175); text-decoration: none;" name="inherited-constants-java.lang.Thread"><img src="Learning%20Android.resources/E94CE2A8-DB3F-42BA-9F4A-720EDF218DD4.png" height="9" width="9"/></a>From class <a href="http://developer.android.com/reference/java/lang/Thread.html" style="color: rgb(37, 138, 175); text-decoration: none;">java.lang.Thread</a>
+<div>
+<table style="font-size: 1em; border-collapse: collapse; border-spacing: 0px; border: 0px; padding: 0px;">
+<tbody>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">int</td>
+<td style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/java/lang/Thread.html#MAX_PRIORITY" style="color: rgb(37, 138, 175); text-decoration: none;">MAX_PRIORITY</a></td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);">The maximum priority value allowed for a thread.</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">int</td>
+<td style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/java/lang/Thread.html#MIN_PRIORITY" style="color: rgb(37, 138, 175); text-decoration: none;">MIN_PRIORITY</a></td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);">The minimum priority value allowed for a thread.</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">int</td>
+<td style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/java/lang/Thread.html#NORM_PRIORITY" style="color: rgb(37, 138, 175); text-decoration: none;">NORM_PRIORITY</a></td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);">The normal (default) priority value assigned to the main thread.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<table style="font-size: 14px; border-collapse: collapse; border-spacing: 0px; border: 0px; background-color: rgb(247, 247, 247); color: rgb(34, 34, 34); font-family: Roboto, sans-serif; line-height: 19px;">
+<tbody>
+<tr>
+<th colspan="12" style="padding: 4px 12px; vertical-align: top; background-color: rgb(153, 153, 153); color: rgb(255, 255, 255); border: 1px solid rgb(221, 221, 221); font-weight: normal;">Public Constructors</th>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);"/>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23HandlerThread(java.lang.String)" style="color: rgb(37, 138, 175); text-decoration: none;">HandlerThread</a>(<a href="http://developer.android.com/reference/java/lang/String.html" style="color: rgb(37, 138, 175); text-decoration: none;">String</a> name)</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);"/>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23HandlerThread(java.lang.String,%20int)" style="color: rgb(37, 138, 175); text-decoration: none;">HandlerThread</a>(<a href="http://developer.android.com/reference/java/lang/String.html" style="color: rgb(37, 138, 175); text-decoration: none;">String</a> name, int priority)
+<div style="padding: 3px 1em 0px; border: 0px;">Constructs a HandlerThread.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div>
+<table style="font-size: 14px; border-collapse: collapse; border-spacing: 0px; border: 0px; background-color: rgb(247, 247, 247); color: rgb(34, 34, 34); font-family: Roboto, sans-serif; line-height: 19px;">
+<tbody>
+<tr>
+<th colspan="12" style="padding: 4px 12px; vertical-align: top; background-color: rgb(153, 153, 153); color: rgb(255, 255, 255); border: 1px solid rgb(221, 221, 221); font-weight: normal;">Public Methods</th>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/Looper.html" style="color: rgb(37, 138, 175); text-decoration: none;">Looper</a></td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23getLooper()" style="color: rgb(37, 138, 175); text-decoration: none;">getLooper</a>()
+<div style="padding: 3px 1em 0px; border: 0px;">This method returns the Looper associated with this thread.</div>
+</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">int</td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23getThreadId()" style="color: rgb(37, 138, 175); text-decoration: none;">getThreadId</a>()
+<div style="padding: 3px 1em 0px; border: 0px;">Returns the identifier of this thread.</div>
+</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">boolean</td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23quit()" style="color: rgb(37, 138, 175); text-decoration: none;">quit</a>()
+<div style="padding: 3px 1em 0px; border: 0px;">Quits the handler thread's looper.</div>
+</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">boolean</td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23quitSafely()" style="color: rgb(37, 138, 175); text-decoration: none;">quitSafely</a>()
+<div style="padding: 3px 1em 0px; border: 0px;">Quits the handler thread's looper safely.</div>
+</td>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">void</td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23run()" style="color: rgb(37, 138, 175); text-decoration: none;">run</a>()
+<div style="padding: 3px 1em 0px; border: 0px;">Calls the <code style="font-size: 13px; color: rgb(0, 102, 0); line-height: 14px;">run()</code> method of the Runnable object the receiver holds.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><br/></div>
+<div>
+<table style="font-size: 14px; border-collapse: collapse; border-spacing: 0px; border: 0px; background-color: rgb(247, 247, 247); color: rgb(34, 34, 34); font-family: Roboto, sans-serif; line-height: 19px;">
+<tbody>
+<tr>
+<th colspan="12" style="padding: 4px 12px; vertical-align: top; background-color: rgb(153, 153, 153); color: rgb(255, 255, 255); border: 1px solid rgb(221, 221, 221); font-weight: normal;">Protected Methods</th>
+</tr>
+<tr>
+<td style="padding: 4px 12px; vertical-align: top; text-align: right; background-color: inherit; border: 1px solid rgb(221, 221, 221);">void</td>
+<td width="100%" style="padding: 4px 12px; vertical-align: top; background-color: inherit; border: 1px solid rgb(221, 221, 221);"><a href="http://developer.android.com/reference/android/os/HandlerThread.html%23onLooperPrepared()" style="color: rgb(37, 138, 175); text-decoration: none;">onLooperPrepared</a>()
+<div style="padding: 3px 1em 0px; border: 0px;">Call back method that can be explicitly overridden if needed to execute some setup before Looper loops.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+<div><br/></div>
+</div>
+<div style="font-family: Courier,">[1] Android Reference: <a href="http://developer.android.com/reference/packages.html">http://developer.android.com/reference/packages.html</a></div>
+<div style="font-family: Courier,">[2] Android Development Tutorial based on android 4.4: <a href="http://www.vogella.com/tutorials/Android/article.html">http://www.vogella.com/tutorials/Android/article.html</a></div>
+<div style="font-family: Courier,">[3] Architecting Android Apps : <a href="https://thenewcircle.com/s/post/1178/architecting_android_apps">https://thenewcircle.com/s/post/1178/architecting_android_apps</a></div>
+<div style="font-family: Courier,">     尤其包含了Chapter4的图与实现例子，似乎是本书作者的文章, Marko Gargenta @ Marakana</div>
+<div style="font-family: Courier,">[4] 本书电子版在线：http://my.safaribooksonline.com/book/programming/android/9781449304881</div>
+<div style="font-family: Courier,">[5] github 源码例子： <a href="https://github.com/twitter-university/LearningAndroidYamba">https://github.com/twitter-university/LearningAndroidYamba</a></div>
+<div style="font-family: Courier,">[6] <span style="background-color: rgb(232, 242, 254); font-size: 10pt; color: rgb(42, 0, 255); font-family: 'Courier New';"><a href="http://yamba.marakana.com/api">http://yamba.marakana.com/api</a></span></div>
+<div style="font-family: Courier,">[7] 本书中文在线版在：<a href="http://dev.icybear.net/learning-android-cn/book.html#toc82">http://dev.icybear.net/learning-android-cn/book.html#toc82</a></div>
+<div style="font-family: Courier,">[8] Video classes : <a href="https://thenewcircle.com/s/post/270/andevcon_android_for_java_developers">https://thenewcircle.com/s/post/270/andevcon_android_for_java_developers</a></div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,"><br/></div>
+<div style="font-family: Courier,"><br/></div>
+</body></html>
