@@ -1,0 +1,560 @@
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>maven</title>
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+</head>
+<body>
+<h1 id="toc_0">Maven</h1>
+
+<p>February 6, 2015 11:34</p>
+
+<p>Apache Maven is a software project management and comprehension tool. Based on the concept of a <strong>project object model(POM)</strong>, Maven can manage a project&#39;s build, reporting and documentation from a central piece of information.  </p>
+
+<p><a href="http://maven.apache.org/index.html">main page</a><br>
+<a href="http://maven.apache.org/ref/3.2.5/">reference3.2.5</a></p>
+
+<h1 id="toc_1">Word maven</h1>
+
+<p>maven 英音 /&#39;meɪv(ə)n/  美音 /ˈmevən/
+an expert in a particular subject</p>
+
+<hr>
+
+<h1 id="toc_2">Download and Install Maven</h1>
+
+<h2 id="toc_3">Download</h2>
+
+<p>Apache Maven 3.2.5 February 6, 2015 09:56  </p>
+
+<p><a href="http://maven.apache.org/download.cgi">downlaod maven</a></p>
+
+<h2 id="toc_4">Install</h2>
+
+<h3 id="toc_5">JDK</h3>
+
+<p>Maven is a Java tool, so you must have Java installed in order to proceed.</p>
+
+<h3 id="toc_6">Install on Uinx-based OS</h3>
+
+<ol>
+<li>Extract the distribution archive.Assume you chose <strong>/usr/local/apache-maven/apache-maven-3.2.5</strong>.</li>
+<li>export PAT=$PATH:/usr/local/apache-maven/apache-maven-3.2.5/<strong>bin</strong><br></li>
+<li>Make sure JAVA_HOME is setted.</li>
+<li>Run mvn --version to verify that it is correctly installed.</li>
+</ol>
+
+<p><a href="http://maven.apache.org/download.cgi">install maven on Windows</a></p>
+
+<hr>
+
+<h1 id="toc_7">Quick start</h1>
+
+<h2 id="toc_8">Configuring Maven</h2>
+
+<p>configurate at <strong>~/.m2</strong>  </p>
+
+<p>3 levels configuration:  </p>
+
+<ol>
+<li>Project: most static configuration occurs in pom.xml - to project;</li>
+<li>Installation: added once for a Maven installation;</li>
+<li>User: for a particular user. <strong>~/.m2/settings.xml</strong></li>
+</ol>
+
+<h3 id="toc_9">Configuring your local Repository</h3>
+
+<p>The location of you local repository can be changed in you user configuration.
+The default vlue is <strong>~/.m2/repository</strong>  </p>
+
+<pre><code class="language-none">&lt;settings&gt;
+    ...
+    &lt;localRepository&gt;/path/to/local/repo/&lt;/localRepository&gt;
+    ...
+&lt;/settings&gt;
+</code></pre>
+
+<ul>
+<li><a href="http://maven.apache.org/guides/mini/guide-configuring-maven.html">Configuring Maven</a></li>
+<li><a href="http://maven.apache.org/guides/mini/guide-proxies.html">Configuring a HTTP Proxy</a></li>
+</ul>
+
+<h2 id="toc_10">Creating a Project</h2>
+
+<pre><code class="language-none">mvn archetype:generate -DgroupId=com.csst.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+</code></pre>
+
+<pre><code class="language-none">my-app
+|-- pom.xml
+`-- src
+    |-- main
+    |   `-- java
+    |       `-- com
+    |           `-- mycompany
+    |               `-- app
+    |                   `-- App.java
+    `-- test
+        `-- java
+            `-- com
+                `-- mycompany
+                    `-- app
+                        `-- AppTest.java</code></pre>
+
+<pre><code class="language-none">1 &lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  2   xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+  3   &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  4   &lt;groupId&gt;com.csst.app&lt;/groupId&gt;
+  5   &lt;artifactId&gt;my-app&lt;/artifactId&gt;
+  6   &lt;packaging&gt;jar&lt;/packaging&gt;
+  7   &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+  8   &lt;name&gt;my-app&lt;/name&gt;
+  9   &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+ 10   &lt;dependencies&gt;
+ 11     &lt;dependency&gt;
+ 12       &lt;groupId&gt;junit&lt;/groupId&gt;
+ 13       &lt;artifactId&gt;junit&lt;/artifactId&gt;
+ 14       &lt;version&gt;3.8.1&lt;/version&gt;
+ 15       &lt;scope&gt;test&lt;/scope&gt;
+ 16     &lt;/dependency&gt;
+ 17   &lt;/dependencies&gt;
+ 18 &lt;/project&gt;</code></pre>
+
+<ol>
+<li><p>mvn archetype:generate: prefix <strong>archetype</strong> is the plugin   </p></li>
+</ol>
+
+<ul>
+<li><p>parameter -DgroupId=com.csst.app:<br>
+<strong>&lt;groupId&gt;com.csst.app&lt;/groupId&gt;</strong></p></li>
+<li><p>parameter -DartifactId=my-app:<br>
+<strong>&lt;artifactId&gt;my-app&lt;/artifactId&gt;</strong></p></li>
+<li><p>parameter -DarchetypeArtifactId=maven-archetype-quickstart</p></li>
+<li><p>-DinteractiveMode=false</p></li>
+</ul>
+
+<h2 id="toc_11">Build the Project</h2>
+
+<pre><code class="language-none">mvn package</code></pre>
+
+<pre><code class="language-none">xugg@xuggs-MacBook-Air ~/P/m/my-app&gt; mvn package
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building my-app 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ my-app ---
+[WARNING] Using platform encoding (US-ASCII actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/xugg/Project/mvn/my-app/src/main/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ my-app ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ my-app ---
+[WARNING] Using platform encoding (US-ASCII actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/xugg/Project/mvn/my-app/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ my-app ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ my-app ---
+[INFO] Surefire report directory: /Users/xugg/Project/mvn/my-app/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+ 
+-------------------------------------------------------
+Running com.csst.app.AppTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ my-app ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.352 s
+[INFO] Finished at: 2015-02-06T12:59:52+08:00
+[INFO] Final Memory: 9M/118M
+[INFO] ------------------------------------------------------------------------
+xugg@xuggs-MacBook-Air ~/P/m/my-app&gt;
+</code></pre>
+
+<pre><code class="language-none">java -cp target/my-app-1.0-SNAPSHOT.jar com.csst.app.App</code></pre>
+
+<p>java -cp classpath class</p>
+
+<h2 id="toc_12">Running Maven Tools</h2>
+
+<h3 id="toc_13">Maven Phases</h3>
+
+<ol>
+<li><strong>validate</strong>: validate the project is correct and all necessary information is avaiable;</li>
+<li><strong>compile</strong>: compile the source code of the project</li>
+<li><strong>test</strong>: test the compiled source code using testing framwork. </li>
+<li><strong>package</strong>: take the compiled code and package it in its distributable format,such as a JAR;</li>
+<li><strong>integration</strong>-test: process and deploy the package if necessary into a environment where integration tests can be run;</li>
+<li><strong>verify</strong>: run any checks to verify the package is valid and meets quality criteria;</li>
+<li><strong>install</strong>: install the package into the local repository, for use as a dependency in other projects locally;</li>
+<li><p><strong>deploy</strong>: done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.</p></li>
+<li><p><strong>clean</strong>: cleans up artifacts crated by prior builds</p></li>
+<li><p><strong>site</strong>: generates site documentation for this project.</p></li>
+</ol>
+
+<h2 id="toc_14">Maven webapp</h2>
+
+<h3 id="toc_15">1.Create webapp</h3>
+
+<pre><code class="language-none">$ mvn archetype:generate -DgroupId={project-packaging} 
+    -DartifactId={project-name} 
+    -DarchetypeArtifactId=maven-archetype-webapp 
+    -DinteractiveMode=false
+
+//for example 
+$ mvn archetype:generate -DgroupId=com.csst -DartifactId=mybatis_test -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false</code></pre>
+
+<pre><code class="language-none">[INFO] Generating project in Batch mode
+
+too long for wating. adding parameter:
+-DarchetypeCatalog=internal</code></pre>
+
+<h3 id="toc_16">2.mvn dependencies</h3>
+
+<pre><code class="language-none">    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.2.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;5.1.22&lt;/version&gt;
+        &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+        &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+        &lt;version&gt;1.7.5&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;log4j&lt;/groupId&gt;
+        &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+        &lt;version&gt;1.2.17&lt;/version&gt;
+        &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;</code></pre>
+
+<pre><code class="language-none">mvn compile</code></pre>
+
+<h3 id="toc_17">3. Eclipse IDE supporting</h3>
+
+<pre><code class="language-none">mvn eclipse:eclipse -Dwtpversion=2.0</code></pre>
+
+<p>Description Resource    Path    Location    Type
+The superclass &quot;javax.servlet.http.HttpServlet&quot; was not found on the Java Build Path    index.jsp   /mybatis_test/src/main/webapp   line 1  JSP Problem</p>
+
+
+</body>
+
+</html>
