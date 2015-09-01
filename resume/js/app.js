@@ -43,7 +43,6 @@ deerResume.controller('resumeCtrl', function ($scope,$http,storage) {
 
 deerResume.controller('adminCtrl', function ($scope,$http,storage,ngNotify) {
 
-	alert(storage);
   storage.bind($scope,'wpass');
   storage.bind($scope,'vpass');
   storage.bind($scope,'apass');
